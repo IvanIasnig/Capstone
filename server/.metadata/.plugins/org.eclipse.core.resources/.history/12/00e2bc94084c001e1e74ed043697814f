@@ -1,0 +1,5 @@
+sping.config.import=file:env.properties
+
+datasource.username=postgres
+datasource.password=1234
+jwt.secret=abcdefghijklmnopqrstuvwxyz123456

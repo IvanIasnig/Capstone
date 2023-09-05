@@ -1,0 +1,11 @@
+package fitnessproject.ivaniasnig.user;
+
+
+
+public class User {
+
+	private String surname;
+	private String name;
+	private int age;
+	private 
+}
