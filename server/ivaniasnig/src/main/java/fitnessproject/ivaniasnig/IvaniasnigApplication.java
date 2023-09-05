@@ -1,0 +1,13 @@
+package fitnessproject.ivaniasnig;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class IvaniasnigApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(IvaniasnigApplication.class, args);
+	}
+
+}
