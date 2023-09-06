@@ -27,12 +27,8 @@ public class User {
 	private int age;
 	@Enumerated(EnumType.STRING)
 	private sexEnum sex;
-	public User(String surname, String name, int age, sexEnum sex) {
-		
-		this.surname = surname;
-		this.name = name;
-		this.age = age;
-		this.sex = sex;
-	}
+	private String password;
+	private String mail;
+	private String username;
 	
 }

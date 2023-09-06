@@ -12,9 +12,9 @@ public class IvaniasnigApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(IvaniasnigApplication.class, args);
 		
-		User user1 = new User("Stupar","Francesco",24,sexEnum.M);
+//		User user1 = new User("Stupar","Francesco",24,sexEnum.M);
 		
-		System.out.println(user1);
+//		System.out.println(user1);
 		
 	}
 
