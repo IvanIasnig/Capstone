@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useAuth } from "../provider/AuthProvider";
 
 function Login() {
   const [formData, setFormData] = useState({
     mail: "",
     password: "",
   });
+
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,14 +20,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3001/auth/login",
-        formData
-      );
-      const token = response.data.token;
-
-      // token nel localStorage
-      localStorage.setItem("authToken", token);
+      await login({ mail: formData.mail, password: formData.password });
     } catch (error) {
       console.error("Errore durante il login:", error);
     }
@@ -34,7 +29,7 @@ function Login() {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="mail"
+        type="email"
         name="mail"
         placeholder="e-mail"
         onChange={handleChange}

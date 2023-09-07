@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useAuth } from "../provider/AuthProvider";
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -40,6 +40,8 @@ function Registration() {
     });
   };
 
+  const { register } = useAuth();
+
   const handleNext = () => {
     if (step < formFields.length - 1) {
       setStep(step + 1);
@@ -50,12 +52,8 @@ function Registration() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/auth/register",
-        formData
-      );
-      console.log(response.data);
-      
+      await register(formData);
+      console.log("Registrazione riuscita!");
     } catch (error) {
       console.error("Errore durante la registrazione:", error);
     }
