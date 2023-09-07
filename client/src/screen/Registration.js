@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 function Registration() {
@@ -11,81 +11,87 @@ function Registration() {
     mail: "",
     username: "",
     role: "",
+    height: "",
+    weight: "",
+    activity: "",
   });
+
+  const [step, setStep] = useState(0);
+
+  const formFields = [
+    { label: "Cognome", name: "surname", type: "text" },
+    { label: "Nome", name: "name", type: "text" },
+    { label: "Età", name: "age", type: "number" },
+    { label: "Sesso", name: "sex", type: "text" },
+    { label: "Password", name: "password", type: "password" },
+    { label: "Email", name: "mail", type: "email" },
+    { label: "Nome utente", name: "username", type: "text" },
+    { label: "Ruolo", name: "role", type: "text" },
+    { label: "Altezza", name: "height", type: "number" },
+    { label: "Peso", name: "weight", type: "number" },
+    { label: "Attività", name: "activity", type: "text" },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleNext = () => {
+    if (step < formFields.length - 1) {
+      setStep(step + 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = async () => {
     try {
       const response = await axios.post(
         "http://localhost:3001/auth/register",
         formData
       );
       console.log(response.data);
+      
     } catch (error) {
       console.error("Errore durante la registrazione:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="surname"
-        placeholder="Cognome"
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="name"
-        placeholder="Nome"
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        name="age"
-        placeholder="Età"
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="sex"
-        placeholder="Sesso (M/F)"
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={handleChange}
-      />
-      <input
-        type="email"
-        name="mail"
-        placeholder="Email"
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="username"
-        placeholder="Nome utente"
-        onChange={handleChange}
-      />
-      <input
-        type="text"
-        name="role"
-        placeholder="Ruolo"
-        onChange={handleChange}
-      />
-      <button type="submit">Registrati</button>
-    </form>
+    <div style={{ width: "300px", overflow: "hidden" }}>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <div
+          style={{
+            display: "flex",
+            transform: `translateX(-${step * 300}px)`,
+            transition: "transform 0.3s",
+          }}
+        >
+          {formFields.map((field, index) => (
+            <div key={index} style={{ minWidth: "300px" }}>
+              <div>
+                <label>{field.label}</label>
+                <input
+                  type={field.type || "text"}
+                  name={field.name}
+                  value={formData[field.name] || ""}
+                  onChange={handleChange}
+                />
+              </div>
+              {index === formFields.length - 1 ? (
+                <button onClick={handleSubmit}>Register!</button>
+              ) : (
+                <button onClick={handleNext}>Next</button>
+              )}
+            </div>
+          ))}
+        </div>
+      </form>
+    </div>
   );
 }
 

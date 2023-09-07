@@ -24,7 +24,7 @@ function Login() {
       );
       const token = response.data.token;
 
-      // token nel localStorage (o scegli un altro metodo di conservazione)
+      // token nel localStorage
       localStorage.setItem("authToken", token);
     } catch (error) {
       console.error("Errore durante il login:", error);

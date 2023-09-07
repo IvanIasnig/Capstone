@@ -35,5 +35,14 @@ public class UserRequestPayload {
 	@NotNull(message = "Il campo username è obbligatorio")
 	private String username;
 
+	@NotNull(message = "Il peso è obbligatorio")
+	private double height;
+	
+	@NotNull(message = "L'altezza è obbligatoria")
+	private double weight;
+	
+	@NotNull(message = "L'altezza è obbligatoria")
+	private Activity activity;
+	
 	private Role role;
 }

@@ -38,8 +38,14 @@ public class User implements UserDetails {
 	private String username;
 	@Enumerated(EnumType.STRING)
 	private Role role;
+	private double height;
+	private double weight;
+	@Enumerated(EnumType.STRING)
+	private Activity activity;
 	
-	public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username, Role role) {
+	public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
+			Role role, double height, double weight, Activity activity) {
+		super();
 		this.surname = surname;
 		this.name = name;
 		this.age = age;
@@ -48,6 +54,9 @@ public class User implements UserDetails {
 		this.mail = mail;
 		this.username = username;
 		this.role = role;
+		this.height = height;
+		this.weight = weight;
+		this.activity = activity;
 	}
 
 	@Override
@@ -78,5 +87,6 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
+
 	
 }
