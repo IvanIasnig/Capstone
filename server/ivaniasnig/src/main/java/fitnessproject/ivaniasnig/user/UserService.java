@@ -7,10 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.domain.Pageable;
 
-import exceptions.BadRequestException;
-import exceptions.NotFoundException;
+import fitnessproject.ivaniasnig.exceptions.BadRequestException;
+import fitnessproject.ivaniasnig.exceptions.NotFoundException;
+import fitnessproject.ivaniasnig.security.UserRequestPayload;
+
+import org.springframework.data.domain.Pageable;
 
 @Repository
 public class UserService {
@@ -18,15 +20,13 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepo;
 	
-	public User save(User user) {
-		if(user.getPassword().length() < 6) {
-			throw new BadRequestException("The password must contain at least 6 characters");
-		}
-		userRepo.findByEmail(user.getMail()).ifPresent(usr -> {
-			throw new BadRequestException("email already in use");
+	public User save(UserRequestPayload body) {
+		userRepo.findByMail(body.getMail()).ifPresent(u -> {
+			throw new BadRequestException("L'email è gia presente del database");
 		});
-		
-		return userRepo.save(user);
+		User newUser = new User(body.getName(), body.getSurname(), body.getAge(), body.getSex(), body.getUsername(), body.getMail(),
+				body.getPassword(), body.getRole());
+		return userRepo.save(newUser);
 	}
 	
 	public Page<User> find(int page, int size, String sort){
@@ -51,12 +51,10 @@ public class UserService {
 	}
 	
 	public void findByIdAndDelete(UUID id) throws NotFoundException {
-		User found = this.findById(id);
-		userRepo.delete(found);
 	}
 	
-	public User findByEmail(String email) {
-		return userRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("User not found"));
+	public User findByEmail(String mail) {
+		return userRepo.findByMail(mail).orElseThrow(() -> new NotFoundException("User not found"));
 	}
 	
 }

@@ -1,4 +1,4 @@
-package exceptions;
+package fitnessproject.ivaniasnig.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
