@@ -1,7 +1,5 @@
-package fitnessproject.ivaniasnig.security;
+package fitnessproject.ivaniasnig.user;
 
-import fitnessproject.ivaniasnig.user.Role;
-import fitnessproject.ivaniasnig.user.sexEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

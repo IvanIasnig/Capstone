@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fitnessproject.ivaniasnig.exceptions.UnauthorizedException;
 import fitnessproject.ivaniasnig.user.User;
+import fitnessproject.ivaniasnig.user.UserLoginPayload;
+import fitnessproject.ivaniasnig.user.UserRequestPayload;
 import fitnessproject.ivaniasnig.user.UserService;
 
 @RestController
@@ -36,16 +38,19 @@ public class AuthController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody UserLoginPayload loginPayloadBody){
+	public ResponseEntity<TokenResponse> login(@RequestBody UserLoginPayload body) {
+
+		User user = null;
+
+			user = userService.findByEmail(body.getMail());
 		
-		User utente = userService.findByEmail(loginPayloadBody.getEmail());
-		
-		if(loginPayloadBody.getPassword().equals(utente.getPassword())) {
-			
-			String token =jwtTools.createToken(utente);
-			return new ResponseEntity<>(token, HttpStatus.OK); //200
+		if (user != null && bcrypt.matches(body.getPassword(), user.getPassword())) {
+			String token = jwtTools.createToken(user);
+			return new ResponseEntity<>(new TokenResponse(token), HttpStatus.OK);
+
 		} else {
-			throw new UnauthorizedException("Credenziali non valide"); //401
+			throw new UnauthorizedException(
+					"Credenziali non valide, verifica che la password o Email ed Username siano corrette");
 		}
 	}
 }

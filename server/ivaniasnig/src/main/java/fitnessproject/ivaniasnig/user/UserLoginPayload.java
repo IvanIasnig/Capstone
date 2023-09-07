@@ -1,4 +1,4 @@
-package fitnessproject.ivaniasnig.security;
+package fitnessproject.ivaniasnig.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UserLoginPayload {
-		String username;
-		String email;
+		String mail;
 		String password;
 }

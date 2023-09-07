@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import fitnessproject.ivaniasnig.exceptions.BadRequestException;
 import fitnessproject.ivaniasnig.exceptions.NotFoundException;
-import fitnessproject.ivaniasnig.security.UserRequestPayload;
 
 import org.springframework.data.domain.Pageable;
 
