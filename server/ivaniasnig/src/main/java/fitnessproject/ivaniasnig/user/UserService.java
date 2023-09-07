@@ -23,8 +23,8 @@ public class UserService {
 		userRepo.findByMail(body.getMail()).ifPresent(u -> {
 			throw new BadRequestException("L'email è gia presente del database");
 		});
-		User newUser = new User(body.getName(), body.getSurname(), body.getAge(), body.getSex(), body.getUsername(), body.getMail(),
-				body.getPassword(), body.getRole());
+		User newUser = new User(body.getSurname(), body.getName(), body.getAge(), body.getSex(), body.getPassword(),  body.getMail(),
+				body.getUsername(), body.getRole());
 		return userRepo.save(newUser);
 	}
 	
