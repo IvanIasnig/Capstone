@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../provider/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ function Login() {
   });
 
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +23,7 @@ function Login() {
     e.preventDefault();
     try {
       await login({ mail: formData.mail, password: formData.password });
+      navigate("/userProfile");
     } catch (error) {
       console.error("Errore durante il login:", error);
     }

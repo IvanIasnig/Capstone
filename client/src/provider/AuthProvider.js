@@ -5,6 +5,8 @@ const AuthContext = createContext();
 
 function AuthProvider(props) {
   const [authToken, setAuthToken] = useState(null);
+  const [name, setName] = useState(null);
+  const [rof, setRof] = useState({});
 
   const login = async (credentials) => {
     try {
@@ -12,9 +14,13 @@ function AuthProvider(props) {
         "http://localhost:3001/auth/login",
         credentials
       );
-      const token = response.data.token;
+      const { token, name, ...rof } = response.data;
       localStorage.setItem("authToken", token);
+      localStorage.setItem("name", name);
+      localStorage.setItem("restOfData", JSON.stringify(rof));
       setAuthToken(token);
+      setName(name);
+      setRof(rof);
     } catch (error) {
       console.error("Errore durante il login:", error);
       throw error;
@@ -27,7 +33,7 @@ function AuthProvider(props) {
         "http://localhost:3001/auth/register",
         userData
       );
-      const token = response.data.token;
+      const token = response.data;
       localStorage.setItem("authToken", token);
       setAuthToken(token);
     } catch (error) {
@@ -38,6 +44,8 @@ function AuthProvider(props) {
 
   const value = {
     authToken,
+    name,
+    rof,
     login,
     register,
   };

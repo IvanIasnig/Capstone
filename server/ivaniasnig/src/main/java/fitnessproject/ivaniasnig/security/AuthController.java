@@ -40,13 +40,13 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<TokenResponse> login(@RequestBody UserLoginPayload body) {
 
-		User user = null;
+		User user = userService.findByEmail(body.getMail());
 
 			user = userService.findByEmail(body.getMail());
 		
 		if (user != null && bcrypt.matches(body.getPassword(), user.getPassword())) {
 			String token = jwtTools.createToken(user);
-			return new ResponseEntity<>(new TokenResponse(token), HttpStatus.OK);
+			return new ResponseEntity<>(new TokenResponse(token, user),  HttpStatus.OK);
 
 		} else {
 			throw new UnauthorizedException(
