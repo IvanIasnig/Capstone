@@ -4,16 +4,22 @@ import React from "react";
 const HomeScreen = () => {
   return (
     <>
-      <div className="card" style={{ height: "200px" }}>
+      <div className="card">
         <div className="card-body d-flex flex-column justify-content-center align-items-center">
           <div className="m-1">Already have an account?</div>
-          <button className="btn btn-primary m-1">
-            <Link to="/login">Login</Link>
-          </button>
+          <Link
+            to="/login"
+            className="btn btn-primary m-1 text-decoration-none"
+          >
+            Login
+          </Link>
           <div className="m-1">or</div>
-          <button className="btn btn-primary m-1">
-            <Link to="/registration">Register</Link>
-          </button>
+          <Link
+            to="/registration"
+            className="btn btn-primary m-1 text-decoration-none"
+          >
+            Register
+          </Link>
         </div>
       </div>
     </>

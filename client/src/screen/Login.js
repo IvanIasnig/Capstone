@@ -30,20 +30,35 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="mail"
-        placeholder="e-mail"
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={handleChange}
-      />
-      <button type="submit">Accedi</button>
+    <form onSubmit={handleSubmit} className="w-50 mx-auto mt-5">
+      <h3 className="text-center mb-3">Login</h3>
+      <div className="form-floating mb-3">
+        <input
+          type="email"
+          id="email"
+          name="mail"
+          className="form-control"
+          placeholder="name@example.com"
+          onChange={handleChange}
+        />
+        <label htmlFor="email">E-mail</label>
+      </div>
+
+      <div className="form-floating mb-3">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          className="form-control"
+          placeholder="Password"
+          onChange={handleChange}
+        />
+        <label htmlFor="password">Password</label>
+      </div>
+
+      <button type="submit" className="btn btn-primary w-100">
+        Login
+      </button>
     </form>
   );
 }

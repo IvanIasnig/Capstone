@@ -60,7 +60,10 @@ function Registration() {
   };
 
   return (
-    <div style={{ width: "300px", overflow: "hidden" }}>
+    <div
+      className="d-block mx-auto"
+      style={{ width: "300px", overflow: "hidden" }}
+    >
       <form onSubmit={(e) => e.preventDefault()}>
         <div
           style={{
@@ -71,20 +74,27 @@ function Registration() {
         >
           {formFields.map((field, index) => (
             <div key={index} style={{ minWidth: "300px" }}>
-              <div>
+              <div className="form-group">
                 <label>{field.label}</label>
                 <input
+                  className="form-control"
                   type={field.type || "text"}
                   name={field.name}
                   value={formData[field.name] || ""}
                   onChange={handleChange}
                 />
               </div>
-              {index === formFields.length - 1 ? (
-                <button onClick={handleSubmit}>Register!</button>
-              ) : (
-                <button onClick={handleNext}>Next</button>
-              )}
+              <div>
+                {index === formFields.length - 1 ? (
+                  <button className="btn btn-primary" onClick={handleSubmit}>
+                    Register!
+                  </button>
+                ) : (
+                  <button className="btn btn-primary" onClick={handleNext}>
+                    Next
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
