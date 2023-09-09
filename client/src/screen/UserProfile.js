@@ -1,12 +1,12 @@
 import { useAuth } from "../provider/AuthProvider";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function UserProfile() {
   const { name } = useAuth();
   const [apiData, setApiData] = useState(null);
   const [error, setError] = useState(null);
-  const [foodQuery, setFoodQuery] = useState(""); // <-- Added state for food input
+  const [foodQuery, setFoodQuery] = useState("");
 
   const storedRof = JSON.parse(localStorage.getItem("restOfData")) || {};
 
@@ -54,7 +54,6 @@ function UserProfile() {
     <div>
       <h1>Benvenuto, {name}!</h1>
       <div>le tue kcal giornaliere sono: {Kcal(storedRof)}</div>
-      {/* Input field for food query */}
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
@@ -65,7 +64,6 @@ function UserProfile() {
         <button type="submit">Search</button>
       </form>
       {error && <p>Si è verificato un errore: {error.message}</p>}
-      {/* Assuming apiData has a property named `name` */}
       {apiData && (
         <div>
           <h2>{apiData.name}</h2>
