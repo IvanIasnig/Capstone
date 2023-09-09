@@ -37,27 +37,25 @@ public class User implements UserDetails {
 	private String mail;
 	private String username;
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Role role = Role.USER;
 	private double height;
 	private double weight;
 	@Enumerated(EnumType.STRING)
 	private Activity activity;
 	
-	public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
-			Role role, double height, double weight, Activity activity) {
-		super();
-		this.surname = surname;
-		this.name = name;
-		this.age = age;
-		this.sex = sex;
-		this.password = password;
-		this.mail = mail;
-		this.username = username;
-		this.role = role;
-		this.height = height;
-		this.weight = weight;
-		this.activity = activity;
-	}
+    public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
+            double height, double weight, Activity activity) {
+            this.surname = surname;
+            this.name = name;
+            this.age = age;
+            this.sex = sex;
+            this.password = password;
+            this.mail = mail;
+            this.username = username;
+            this.height = height;
+            this.weight = weight;
+            this.activity = activity;
+        }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

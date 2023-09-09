@@ -4,6 +4,7 @@ import Registration from "./screen/Registration";
 import Login from "./screen/Login";
 import { AuthProvider } from "./provider/AuthProvider";
 import UserProfile from "./screen/UserProfile";
+import Diet from "./screen/Diet";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />}></Route>
           <Route path="/userProfile" element={<UserProfile />}></Route>
+          <Route path="/userProfile/diet" element={<Diet />} />
         </Routes>
       </AuthProvider>
     </Router>

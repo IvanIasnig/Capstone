@@ -43,6 +43,5 @@ public class UserRequestPayload {
 	
 	@NotNull(message = "L'altezza è obbligatoria")
 	private Activity activity;
-	
-	private Role role;
+
 }

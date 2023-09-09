@@ -24,7 +24,7 @@ public class UserService {
 			throw new BadRequestException("L'email è gia presente del database");
 		});
 		User newUser = new User(body.getSurname(), body.getName(), body.getAge(), body.getSex(), body.getPassword(),  body.getMail(),
-				body.getUsername(), body.getRole(), body.getHeight(), body.getWeight(), body.getActivity());
+				body.getUsername(), body.getHeight(), body.getWeight(), body.getActivity());
 		return userRepo.save(newUser);
 	}
 	
