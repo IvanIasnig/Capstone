@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Papa from "papaparse";
 
 const daysOfWeek = [
   "Monday",
@@ -11,6 +11,7 @@ const daysOfWeek = [
   "Saturday",
   "Sunday",
 ];
+
 const meals = [
   "Breakfast",
   "MorningSnack",
@@ -21,60 +22,74 @@ const meals = [
 
 const defaultMealPlan = {
   Monday: {
-    Breakfast: "Oatmeal with fruits",
-    MorningSnack: "Yogurt",
-    Lunch: "Rice and grilled chicken",
-    AfternoonSnack: "Nuts",
-    Dinner: "Spaghetti with tomato sauce",
+    Breakfast: "Applesauce",
+    MorningSnack: "Applesauce",
+    Lunch: "Applesauce",
+    AfternoonSnack: "Applesauce",
+    Dinner: "Applesauce",
   },
   Tuesday: {
-    Breakfast: "Pancakes with syrup",
-    MorningSnack: "Fruit salad",
-    Lunch: "Turkey and cheese sandwich",
-    AfternoonSnack: "Granola bar",
-    Dinner: "Chicken curry with rice",
+    Breakfast: "Applesauce",
+    MorningSnack: "Applesauce",
+    Lunch: "Applesauce",
+    AfternoonSnack: "Applesauce",
+    Dinner: "Applesauce",
   },
   Wednesday: {
-    Breakfast: "Cereal with milk",
-    MorningSnack: "Smoothie with berries",
-    Lunch: "Salad with tuna",
-    AfternoonSnack: "Carrots with hummus",
-    Dinner: "Steak with mashed potatoes",
+    Breakfast: "Applesauce",
+    MorningSnack: "Applesauce",
+    Lunch: "Applesauce",
+    AfternoonSnack: "Applesauce",
+    Dinner: "Applesauce",
   },
   Thursday: {
-    Breakfast: "French toast",
-    MorningSnack: "Sliced apples",
-    Lunch: "Burger with fries",
-    AfternoonSnack: "Cookies",
-    Dinner: "Fish with green beans",
+    Breakfast: "Applesauce",
+    MorningSnack: "Applesauce",
+    Lunch: "Applesauce",
+    AfternoonSnack: "Applesauce",
+    Dinner: "Applesauce",
   },
   Friday: {
-    Breakfast: "Eggs with toast",
-    MorningSnack: "Protein shake",
-    Lunch: "Chicken Caesar salad",
-    AfternoonSnack: "Sliced cucumbers",
-    Dinner: "Pizza",
+    Breakfast: "Applesauce",
+    MorningSnack: "Applesauce",
+    Lunch: "Applesauce",
+    AfternoonSnack: "Applesauce",
+    Dinner: "Applesauce",
   },
   Saturday: {
-    Breakfast: "Waffles with berries",
-    MorningSnack: "Muffin",
-    Lunch: "Spaghetti carbonara",
-    AfternoonSnack: "Ice cream",
-    Dinner: "BBQ ribs with coleslaw",
+    Breakfast: "Applesauce",
+    MorningSnack: "Applesauce",
+    Lunch: "Applesauce",
+    AfternoonSnack: "Applesauce",
+    Dinner: "Applesauce",
   },
   Sunday: {
-    Breakfast: "Muesli with yogurt",
-    MorningSnack: "Banana",
-    Lunch: "Roast beef with vegetables",
-    AfternoonSnack: "Chocolate",
-    Dinner: "Soup with bread",
+    Breakfast: "Applesauce",
+    MorningSnack: "Applesauce",
+    Lunch: "Applesauce",
+    AfternoonSnack: "Applesauce",
+    Dinner: "Applesauce",
   },
 };
 
-function WeeklyMealPlan({ fetchNutritionInfo }) {
+let foodData = [];
+
+function getSuggestions(query) {
+  return foodData
+    .filter(
+      (item) =>
+        item &&
+        item.FoodItem &&
+        item.FoodItem.toLowerCase().includes(query.toLowerCase())
+    )
+    .map((item) => item.FoodItem);
+}
+
+function WeeklyMealPlan() {
   const [mealPlan, setMealPlan] = useState(defaultMealPlan);
   const [error, setError] = useState(null);
-  let [kcal, setKcal] = useState(0);
+  const [kcal, setKcal] = useState(0);
+  const [foodData, setFoodData] = useState([]);
 
   const handleChange = (day, meal, value) => {
     setMealPlan((prev) => ({
@@ -94,7 +109,7 @@ function WeeklyMealPlan({ fetchNutritionInfo }) {
     for (let day in mealPlan) {
       for (let meal in mealPlan[day]) {
         let query = mealPlan[day][meal];
-        promises.push(fetchNutritionInfo(query)); // pass the query to the function
+        promises.push(fetchNutritionInfo(query));
       }
     }
 
@@ -106,18 +121,22 @@ function WeeklyMealPlan({ fetchNutritionInfo }) {
   };
 
   async function fetchNutritionInfo(query) {
-    const KEY = "d802a615ff134b103d4b0a29cdf27e04";
-    const ID = "43f50be8";
-    const BASE_URL = `https://api.edamam.com/api/nutrition-data?app_id=${ID}&app_key=${KEY}&nutrition-type=cooking&ingr=${query}`;
+    const matchedItem = foodData.find(
+      (item) =>
+        item &&
+        item.FoodItem &&
+        item.FoodItem.toLowerCase() === query.toLowerCase()
+    );
 
-    try {
-      const response = await axios.get(BASE_URL);
-      console.log(response.data);
-      totKcal(response.data);
-      return response.data;
-    } catch (error) {
-      console.error("Errore durante la chiamata API:", error);
-      setError(error);
+    if (matchedItem) {
+      const data = {
+        calories: parseFloat(matchedItem.Cals_per100grams.split(" ")[0]),
+      };
+      totKcal(data);
+      return data;
+    } else {
+      console.error("Item not found in CSV data:", query);
+      setError(new Error("Item not found"));
     }
   }
 
@@ -126,6 +145,22 @@ function WeeklyMealPlan({ fetchNutritionInfo }) {
       setKcal((prevKcal) => prevKcal + data.calories);
     }
   }
+
+  useEffect(() => {
+    Papa.parse("/calories.csv", {
+      header: true,
+      download: true,
+      dynamicTyping: true,
+      complete: function (results) {
+        setFoodData(results.data);
+        console.log("Loaded CSV:", results.data);
+      },
+      error: function (error) {
+        console.error("Error reading CSV:", error);
+        setError(error);
+      },
+    });
+  }, []);
 
   return (
     <form onSubmit={handleSubmit} className="container mt-4">
@@ -140,7 +175,14 @@ function WeeklyMealPlan({ fetchNutritionInfo }) {
                 className="form-control d-inline-block w-50"
                 value={mealPlan[day][meal]}
                 onChange={(e) => handleChange(day, meal, e.target.value)}
+                list="food-suggestions"
               />
+              <datalist id="food-suggestions">
+                {mealPlan[day][meal] &&
+                  getSuggestions(mealPlan[day][meal]).map((suggestion) => (
+                    <option key={suggestion} value={suggestion} />
+                  ))}
+              </datalist>
             </div>
           ))}
         </div>
