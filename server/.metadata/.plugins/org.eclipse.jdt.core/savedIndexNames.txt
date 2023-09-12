@@ -46,7 +46,6 @@ INDEX VERSION 1.134+C:\Users\ivan1\OneDrive\Desktop\Capstone\server\.metadata\.p
 4090126707.index
 2957660076.index
 921678536.index
-2804101461.index
 2509050681.index
 994681216.index
 1892782461.index

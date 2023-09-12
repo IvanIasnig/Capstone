@@ -207,11 +207,12 @@ function WeeklyMealPlan() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setKcal(0);
 
     let promises = [];
+    let mealPlanData = {};
 
     for (let day in mealPlan) {
       for (let meal in mealPlan[day]) {
@@ -220,11 +221,13 @@ function WeeklyMealPlan() {
       }
     }
 
-    Promise.all(promises).then((results) => {
-      results.forEach((result) => {
-        console.log(result);
-      });
+    const results = await Promise.all(promises);
+    results.forEach((result) => {
+      console.log(result);
+      // aggiungi il risultato a mealPlanData se necessario
     });
+
+    await postMealPlanData(mealPlanData);
   };
 
   async function fetchNutritionInfo(query) {
@@ -272,6 +275,30 @@ function WeeklyMealPlan() {
       },
     });
   }, []);
+
+  const postMealPlanData = async (data) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/user/diet/registerDiet",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="container mt-4">

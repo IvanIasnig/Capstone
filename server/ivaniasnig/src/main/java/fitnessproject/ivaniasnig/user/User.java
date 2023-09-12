@@ -8,11 +8,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import fitnessproject.ivaniasnig.diet.Diet;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,6 +46,10 @@ public class User implements UserDetails {
 	private double weight;
 	@Enumerated(EnumType.STRING)
 	private Activity activity;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "diet_id")
+    private Diet diet;
 	
     public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
             double height, double weight, Activity activity) {

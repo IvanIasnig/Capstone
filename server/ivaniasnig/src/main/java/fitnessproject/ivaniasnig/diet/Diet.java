@@ -1,30 +1,40 @@
-//package fitnessproject.ivaniasnig.diet;
-//
-//import jakarta.persistence.Entity;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//import lombok.Setter;
-//
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//@Entity
-//public class Diet {
-//	private String breakfast;
-//	private String morgingSnack;
-//	private String lunch;
-//	private String afternoonSnack;
-//	private String dinner;
-//	private String eveningSnack;
-//	public Diet(String breakfast, String morgingSnack, String lunch, String afternoonSnack, String dinner,
-//			String eveningSnack) {
-//		this.breakfast = breakfast;
-//		this.morgingSnack = morgingSnack;
-//		this.lunch = lunch;
-//		this.afternoonSnack = afternoonSnack;
-//		this.dinner = dinner;
-//		this.eveningSnack = eveningSnack;
-//	}
-//	
-//	
-//}
+package fitnessproject.ivaniasnig.diet;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import fitnessproject.ivaniasnig.user.User;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+public class Diet {
+	
+	@GeneratedValue
+	@Id
+	private UUID id;
+	
+    @OneToOne(mappedBy = "diet")
+    private User user;
+
+    @OneToMany(mappedBy = "diet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DayDiet> dayDiets = new ArrayList<>();
+
+	public Diet(User user, List<DayDiet> dayDiets) {
+		this.user = user;
+		this.dayDiets = dayDiets;
+	}
+
+    
+}
