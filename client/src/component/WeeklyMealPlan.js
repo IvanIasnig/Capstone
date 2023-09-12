@@ -22,59 +22,162 @@ const meals = [
 
 const defaultMealPlan = {
   Monday: {
-    Breakfast: "Applesauce",
-    MorningSnack: "Applesauce",
-    Lunch: "Applesauce",
-    AfternoonSnack: "Applesauce",
-    Dinner: "Applesauce",
+    Breakfast: {
+      food: "Plain Yogurt",
+      grams: "170",
+    },
+    MorningSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Lunch: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    AfternoonSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Dinner: {
+      food: "Applesauce",
+      grams: "100",
+    },
   },
   Tuesday: {
-    Breakfast: "Applesauce",
-    MorningSnack: "Applesauce",
-    Lunch: "Applesauce",
-    AfternoonSnack: "Applesauce",
-    Dinner: "Applesauce",
+    Breakfast: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    MorningSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Lunch: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    AfternoonSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Dinner: {
+      food: "Applesauce",
+      grams: "100",
+    },
   },
   Wednesday: {
-    Breakfast: "Applesauce",
-    MorningSnack: "Applesauce",
-    Lunch: "Applesauce",
-    AfternoonSnack: "Applesauce",
-    Dinner: "Applesauce",
+    Breakfast: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    MorningSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Lunch: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    AfternoonSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Dinner: {
+      food: "Applesauce",
+      grams: "100",
+    },
   },
   Thursday: {
-    Breakfast: "Applesauce",
-    MorningSnack: "Applesauce",
-    Lunch: "Applesauce",
-    AfternoonSnack: "Applesauce",
-    Dinner: "Applesauce",
+    Breakfast: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    MorningSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Lunch: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    AfternoonSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Dinner: {
+      food: "Applesauce",
+      grams: "100",
+    },
   },
   Friday: {
-    Breakfast: "Applesauce",
-    MorningSnack: "Applesauce",
-    Lunch: "Applesauce",
-    AfternoonSnack: "Applesauce",
-    Dinner: "Applesauce",
+    Breakfast: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    MorningSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Lunch: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    AfternoonSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Dinner: {
+      food: "Applesauce",
+      grams: "100",
+    },
   },
   Saturday: {
-    Breakfast: "Applesauce",
-    MorningSnack: "Applesauce",
-    Lunch: "Applesauce",
-    AfternoonSnack: "Applesauce",
-    Dinner: "Applesauce",
+    Breakfast: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    MorningSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Lunch: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    AfternoonSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Dinner: {
+      food: "Applesauce",
+      grams: "100",
+    },
   },
   Sunday: {
-    Breakfast: "Applesauce",
-    MorningSnack: "Applesauce",
-    Lunch: "Applesauce",
-    AfternoonSnack: "Applesauce",
-    Dinner: "Applesauce",
+    Breakfast: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    MorningSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Lunch: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    AfternoonSnack: {
+      food: "Applesauce",
+      grams: "100",
+    },
+    Dinner: {
+      food: "Applesauce",
+      grams: "100",
+    },
   },
 };
 
-let foodData = [];
-
-function getSuggestions(query) {
+function getSuggestions(query, foodData) {
   return foodData
     .filter(
       (item) =>
@@ -91,18 +194,22 @@ function WeeklyMealPlan() {
   const [kcal, setKcal] = useState(0);
   const [foodData, setFoodData] = useState([]);
 
-  const handleChange = (day, meal, value) => {
+  const handleChange = (day, meal, field, value) => {
     setMealPlan((prev) => ({
       ...prev,
       [day]: {
         ...prev[day],
-        [meal]: value,
+        [meal]: {
+          ...prev[day][meal],
+          [field]: value,
+        },
       },
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setKcal(0);
 
     let promises = [];
 
@@ -121,21 +228,25 @@ function WeeklyMealPlan() {
   };
 
   async function fetchNutritionInfo(query) {
+    const foodItem = query.food;
+
     const matchedItem = foodData.find(
       (item) =>
         item &&
         item.FoodItem &&
-        item.FoodItem.toLowerCase() === query.toLowerCase()
+        item.FoodItem.toLowerCase() === foodItem.toLowerCase()
     );
 
     if (matchedItem) {
       const data = {
-        calories: parseFloat(matchedItem.Cals_per100grams.split(" ")[0]),
+        calories:
+          parseFloat(matchedItem.Cals_per100grams.split(" ")[0]) *
+          (query.grams / 100),
       };
       totKcal(data);
       return data;
     } else {
-      console.error("Item not found in CSV data:", query);
+      console.error("Item not found in CSV data:", foodItem);
       setError(new Error("Item not found"));
     }
   }
@@ -168,20 +279,33 @@ function WeeklyMealPlan() {
         <div key={day} className="mb-4">
           <h3 className="mb-2">{day}</h3>
           {meals.map((meal) => (
-            <div key={meal} className="mb-2">
+            <div key={meal} className="d-flex mb-2">
               <label className="me-2">{meal}: </label>
               <input
                 type="text"
-                className="form-control d-inline-block w-50"
-                value={mealPlan[day][meal]}
-                onChange={(e) => handleChange(day, meal, e.target.value)}
-                list="food-suggestions"
+                className="form-control d-inline-block w-50 me-2"
+                value={mealPlan[day][meal].food}
+                onChange={(e) =>
+                  handleChange(day, meal, "food", e.target.value)
+                }
+                list={`food-suggestions-${day}-${meal}`}
               />
-              <datalist id="food-suggestions">
-                {mealPlan[day][meal] &&
-                  getSuggestions(mealPlan[day][meal]).map((suggestion) => (
-                    <option key={suggestion} value={suggestion} />
-                  ))}
+              <input
+                type="number"
+                className="form-control d-inline-block w-20"
+                value={mealPlan[day][meal].grams}
+                onChange={(e) =>
+                  handleChange(day, meal, "grams", e.target.value)
+                }
+                placeholder="Grams"
+              />
+              <datalist id={`food-suggestions-${day}-${meal}`}>
+                {mealPlan[day][meal].food &&
+                  getSuggestions(mealPlan[day][meal].food, foodData).map(
+                    (suggestion) => (
+                      <option key={suggestion} value={suggestion} />
+                    )
+                  )}
               </datalist>
             </div>
           ))}
