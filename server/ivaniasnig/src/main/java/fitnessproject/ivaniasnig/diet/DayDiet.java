@@ -39,7 +39,6 @@ public class DayDiet {
     private String dayName;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diet_id")
     private Diet diet;
 
 	public DayDiet(Meal breakfast, Meal morningSnack, Meal lunch, Meal afternoonSnack, Meal dinner, String dayName) {

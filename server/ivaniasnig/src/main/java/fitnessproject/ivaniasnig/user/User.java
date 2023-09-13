@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fitnessproject.ivaniasnig.diet.Diet;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -47,8 +49,9 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Activity activity;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diet_id")
+	@JsonIgnore
     private Diet diet;
 	
     public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
@@ -94,5 +97,4 @@ public class User implements UserDetails {
 		return true;
 	}
 
-	
 }

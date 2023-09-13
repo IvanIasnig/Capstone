@@ -27,10 +27,12 @@ public class DietService {
 
         Diet savedDiet = dietRepo.save(diet);
 
-        user.setDiet(savedDiet);
+        user.setDiet(diet);
         userRepo.save(user);
+        
+        savedDiet.setUser(user);
 
-        return savedDiet;
+        return dietRepo.save(savedDiet);
     }
 }
 

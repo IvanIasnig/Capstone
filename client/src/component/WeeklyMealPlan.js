@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import jwtDecode from "jwt-decode";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Papa from "papaparse";
 
@@ -178,7 +179,7 @@ const defaultMealPlan = {
 };
 
 function getSuggestions(query, foodData) {
-  return foodData
+  const suggestions = foodData
     .filter(
       (item) =>
         item &&
@@ -186,6 +187,22 @@ function getSuggestions(query, foodData) {
         item.FoodItem.toLowerCase().includes(query.toLowerCase())
     )
     .map((item) => item.FoodItem);
+
+  return [...new Set(suggestions)];
+}
+
+function getUserIdFromToken() {
+  const token = localStorage.getItem("authToken");
+  if (!token) return null;
+
+  try {
+    const decoded = jwtDecode(token);
+    // console.log(decoded);
+    return decoded.sub;
+  } catch (err) {
+    console.error("Errore durante la decodifica del token", err);
+    return null;
+  }
 }
 
 function WeeklyMealPlan() {
@@ -212,7 +229,12 @@ function WeeklyMealPlan() {
     setKcal(0);
 
     let promises = [];
-    let mealPlanData = {};
+    const userId = getUserIdFromToken();
+    let mealPlanData = {
+      userId: userId,
+      mealPlan: mealPlan,
+      totalKcal: kcal,
+    };
 
     for (let day in mealPlan) {
       for (let meal in mealPlan[day]) {
@@ -223,8 +245,7 @@ function WeeklyMealPlan() {
 
     const results = await Promise.all(promises);
     results.forEach((result) => {
-      console.log(result);
-      // aggiungi il risultato a mealPlanData se necessario
+      // console.log(result);
     });
 
     await postMealPlanData(mealPlanData);
@@ -267,7 +288,7 @@ function WeeklyMealPlan() {
       dynamicTyping: true,
       complete: function (results) {
         setFoodData(results.data);
-        console.log("Loaded CSV:", results.data);
+        // console.log("Loaded CSV:", results.data);
       },
       error: function (error) {
         console.error("Error reading CSV:", error);
@@ -277,14 +298,17 @@ function WeeklyMealPlan() {
   }, []);
 
   const postMealPlanData = async (data) => {
+    console.log(JSON.stringify(data));
     try {
       const response = await fetch(
-        "http://localhost:3001/user/diet/registerDiet",
+        `http://localhost:3001/user/diet/registerDiet?userId=${data.userId}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
+
           body: JSON.stringify(data),
         }
       );
@@ -294,7 +318,7 @@ function WeeklyMealPlan() {
       }
 
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
