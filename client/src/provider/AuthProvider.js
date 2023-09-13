@@ -56,3 +56,4 @@ function AuthProvider(props) {
 const useAuth = () => useContext(AuthContext);
 
 export { AuthProvider, useAuth };
+
