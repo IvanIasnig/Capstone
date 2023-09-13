@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 const WeeklyMealPlan = () => {
   const [response, setResponse] = useState(null);
@@ -7,9 +8,27 @@ const WeeklyMealPlan = () => {
   // Recupera il token dal localStorage
   const authToken = localStorage.getItem("authToken");
 
+  function getUserIdFromToken() {
+    const token = localStorage.getItem("authToken");
+    if (!token) return null;
+
+    try {
+      const decoded = jwtDecode(token);
+      console.log(decoded);
+      return decoded.sub;
+    } catch (err) {
+      console.error("Errore durante la decodifica del token", err);
+      return null;
+    }
+  }
+
   const postData = async () => {
-    const url =
-      "http://localhost:3001/user/diet/registerDiet?userId=85a5a9e4-8185-44be-ac5b-254a987a33a3";
+    const userId = getUserIdFromToken();
+    if (!userId) {
+      setResponse("Errore: impossibile ottenere l'ID dell'utente dal token.");
+      return;
+    }
+    const url = `http://localhost:3001/user/diet/registerDiet?userId=${userId}`;
 
     const data = {
       dayDiets: [
