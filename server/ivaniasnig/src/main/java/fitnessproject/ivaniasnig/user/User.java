@@ -51,7 +51,6 @@ public class User implements UserDetails {
 	
 	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diet_id")
-	@JsonIgnore
     private Diet diet;
 	
     public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,

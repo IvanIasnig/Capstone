@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import fitnessproject.ivaniasnig.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -19,6 +22,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Diet {
 	
 	@GeneratedValue
@@ -26,6 +30,7 @@ public class Diet {
 	private UUID id;
 	
     @OneToOne(mappedBy = "diet")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "diet", cascade = CascadeType.ALL, orphanRemoval = true)

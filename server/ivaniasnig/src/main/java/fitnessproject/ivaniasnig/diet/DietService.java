@@ -21,19 +21,20 @@ public class DietService {
 	@Autowired
 	private UserRepository userRepo;
 	
-    public Diet save(Diet diet, UUID userId) {
+	  public Diet save(Diet diet, UUID userId) {
 
-        User user = userRepo.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+	        User user = userRepo.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        Diet savedDiet = dietRepo.save(diet);
+	        Diet savedDiet = dietRepo.save(diet);
 
-        user.setDiet(diet);
-        userRepo.save(user);
-        
-        savedDiet.setUser(user);
+	        user.setDiet(diet);
+	        userRepo.save(user);
+	        
+	        savedDiet.setUser(user);
 
-        return dietRepo.save(savedDiet);
-    }
+	        return dietRepo.save(savedDiet);
+	    }
+
     
     public Diet getByUserId(UUID userId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
