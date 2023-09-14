@@ -34,6 +34,12 @@ public class DietService {
 
         return dietRepo.save(savedDiet);
     }
+    
+    public Diet getByUserId(UUID userId) {
+        User user = userRepo.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return user.getDiet();
+    }
+
 }
 
 

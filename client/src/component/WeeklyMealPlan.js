@@ -104,7 +104,12 @@ const WeeklyMealPlan = () => {
     }
     const url = `http://localhost:3001/user/diet/registerDiet?userId=${userId}`;
 
-    const data = { dayDiets: Object.values(dayDiets) };
+    const data = {
+      dayDiets: Object.entries(dayDiets).map(([dayName, meals]) => ({
+        dayName,
+        ...meals,
+      })),
+    };
 
     try {
       const config = {
