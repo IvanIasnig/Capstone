@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import Papa from "papaparse";
 
 const WeeklyMealPlan = () => {
   const [response, setResponse] = useState(null);
@@ -56,6 +57,23 @@ const WeeklyMealPlan = () => {
     },
   });
 
+  const [availableFoods, setAvailableFoods] = useState([]);
+
+  useEffect(() => {
+    loadFoods();
+  }, []);
+
+  const loadFoods = () => {
+    Papa.parse("/calories.csv", {
+      download: true,
+      header: true,
+      complete: (result) => {
+        const foods = result.data.map((row) => row.FoodItem);
+        setAvailableFoods(foods);
+      },
+    });
+  };
+
   // Recupera il token dal localStorage
   const authToken = localStorage.getItem("authToken");
 
@@ -103,35 +121,54 @@ const WeeklyMealPlan = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-4">
       {Object.entries(dayDiets).map(([day, meals]) => (
-        <div key={day}>
-          <h3>{day}</h3>
-          {Object.entries(meals).map(([meal, details]) => (
-            <div key={meal}>
-              <label>{meal}</label>
-              <input
-                type="text"
-                placeholder="Cibo"
-                value={details.food}
-                onChange={(e) =>
-                  handleInputChange(day, meal, "food", e.target.value)
-                }
-              />
-              <input
-                type="number"
-                placeholder="Grammi"
-                value={details.grams}
-                onChange={(e) =>
-                  handleInputChange(day, meal, "grams", e.target.value)
-                }
-              />
-            </div>
-          ))}
+        <div key={day} className="card mb-4">
+          <div className="card-header">{day}</div>
+          <div className="card-body">
+            {Object.entries(meals).map(([meal, details]) => (
+              <div key={meal} className="mb-3 row">
+                <label className="col-sm-2 col-form-label">{meal}</label>
+                <div className="col-sm-4">
+                  <select
+                    className="form-control"
+                    value={details.food}
+                    onChange={(e) =>
+                      handleInputChange(day, meal, "food", e.target.value)
+                    }
+                  >
+                    <option value="">Seleziona un cibo...</option>
+                    {availableFoods.map((food, index) => (
+                      <option key={`${food}-${index}`} value={food}>
+                        {food}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-sm-3">
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Grammi"
+                    value={details.grams}
+                    onChange={(e) =>
+                      handleInputChange(day, meal, "grams", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
-      <button onClick={postData}>Invia Piano Alimentare</button>
-      {response && <div>Risposta del server: {JSON.stringify(response)}</div>}
+      <button onClick={postData} className="btn btn-primary">
+        Invia Piano Alimentare
+      </button>
+      {response && (
+        <div className="mt-4 alert alert-info">
+          Risposta del server: {JSON.stringify(response)}
+        </div>
+      )}
     </div>
   );
 };
