@@ -1,5 +1,84 @@
+//Enter workouts for 1,2,3,5,6 days a week
+
 const workoutPlans = {
-  EXTRA: {
+  SEDENTARY: {
+    week: {
+      Wednesday: [
+        { exercise: "Squats", sets: 3, reps: 10 - 12 },
+        { exercise: "Push-Ups", sets: 3, reps: 10 - 15 },
+        { exercise: "Bent Over Dumbbell Rows", sets: 3, reps: 10 - 12 },
+        { exercise: "Dumbbell Shoulder Press", sets: 3, reps: 10 - 12 },
+        { exercise: "Plank", sets: 3, duration: "30s-1min" },
+        { exercise: "Hyperextensions", sets: 3, reps: 12 - 15 },
+      ],
+    },
+  },
+  MILDLY: {
+    week: {
+      "Day 1: Full-body": [
+        { exercise: "Squat (Barbell)", sets: 3, reps: "6 to 10" },
+        {
+          exercise: "Incline Bench Press (Dumbbell)",
+          sets: 3,
+          reps: "8 to 12",
+        },
+        { exercise: "Bent Over Row (Barbell)", sets: 3, reps: "8 to 12" },
+        { exercise: "Romanian Deadlift (Dumbbell)", sets: 3, reps: "10 to 12" },
+        {
+          exercise: "Seated Shoulder Press (Machine)",
+          sets: "2-3",
+          reps: "10 to 15",
+        },
+        { exercise: "Leg Extension (Machine)", sets: "2-3", reps: "10 to 15" },
+        { exercise: "Cable Fly Crossover", sets: "2-3", reps: "12 to 15" },
+        { exercise: "Seated Row (Machine)", sets: "2-3", reps: "12 to 15" },
+        {
+          exercise: "Single Leg Hip Thrust",
+          sets: "2-3",
+          reps: "6 to 15 (per leg)",
+        },
+      ],
+      "Day 2: Full-body": [
+        { exercise: "Overhead Press (Barbell)", sets: 3, reps: "6 to 10" },
+        { exercise: "Goblet Squat", sets: 3, reps: "8 to 12" },
+        { exercise: "Pendlay Row (Barbell)", sets: 3, reps: "8 to 12" },
+        { exercise: "Chest Press (Machine)", sets: 3, reps: "10 to 15" },
+        { exercise: "Glute Ham Raise", sets: 3, reps: "8 to 15" },
+        { exercise: "Lateral Raise (Dumbbell)", sets: "2-3", reps: "15 to 20" },
+        { exercise: "Triceps Rope Pushdown", sets: "2-3", reps: "12 to 20" },
+        { exercise: "Concentration Curl", sets: "2-3", reps: "12 to 20" },
+        { exercise: "Face Pull", sets: 3, reps: "15 to 25" },
+      ],
+    },
+  },
+  MODERATLY: {
+    week: {
+      Push: [
+        { exercise: "Bench Press", sets: 3, reps: "6-8" },
+        { exercise: "Seated Shoulder Press", sets: 3, reps: "8-12" },
+        { exercise: "Incline Dumbbell Press", sets: 3, reps: "8-12" },
+        { exercise: "Lateral Raises", sets: 3, reps: "8-12" },
+        { exercise: "Triceps Dumbbell Extension", sets: 3, reps: "8-12" },
+        { exercise: "Triceps Rope Pressdown", sets: 3, reps: "8-12" },
+      ],
+      Pull: [
+        { exercise: "Lat Pulldown", sets: 3, reps: "8-12" },
+        { exercise: "Bent Over Row", sets: 3, reps: "8-12" },
+        { exercise: "Face Pulls", sets: 3, reps: "8-12" },
+        { exercise: "Dumbbell Shrugs", sets: 3, reps: "8-12" },
+        { exercise: "Bicep Barbell Curls", sets: 3, reps: "8-12" },
+        { exercise: "Hammer Curls", sets: 3, reps: "8-12" },
+      ],
+      Legs: [
+        { exercise: "Squat Barbell", sets: 3, reps: "8-12" },
+        { exercise: "Leg Press", sets: 3, reps: "8-12" },
+        { exercise: "Leg Extension", sets: 3, reps: "8-12" },
+        { exercise: "Seated Leg Curl", sets: 3, reps: "8-12" },
+        { exercise: "Standing Calf Raises", sets: 3, reps: "8-12" },
+      ],
+    },
+  },
+  VERY: {
     week: {
       Monday: [
         { exercise: "Dumbbell Bench Press", sets: 5, reps: 10 },
@@ -46,27 +125,71 @@ const workoutPlans = {
       ],
     },
   },
-  SEDENTARY: {
+  EXTRA: {
     week: {
-      Wednesday: [
-        { exercise: "Squats", sets: 3, reps: 10 - 12 },
-        { exercise: "Push-Ups", sets: 3, reps: 10 - 15 },
-        { exercise: "Bent Over Dumbbell Rows", sets: 3, reps: 10 - 12 },
-        { exercise: "Dumbbell Shoulder Press", sets: 3, reps: 10 - 12 },
-        { exercise: "Plank", sets: 3, duration: "30s-1min" },
-        { exercise: "Hyperextensions", sets: 3, reps: 12 - 15 },
+      "Day 1 - Chest and Triceps": [
+        { exercise: "Incline Dumbbell Press", sets: 4, reps: "12-15" },
+        { exercise: "Flat Dumbbell Press", sets: 3, reps: "12" },
+        { exercise: "Incline Flys", sets: 3, reps: "12" },
+        { exercise: "Pec Deck", sets: 3, reps: "12" },
+        { exercise: "Skull Crushers", sets: 4, reps: "12-15" },
+        { exercise: "Rope Extensions", sets: 3, reps: "12" },
+        { exercise: "Straight Bar Pushdowns", sets: 3, reps: "12" },
+        { exercise: "Rope Crunch", sets: 4, reps: "20-25" },
+        { exercise: "Hanging Knee Raise", sets: 4, reps: "20-25" },
       ],
-    },
-  },
-  MILDLY: {
-    week: {
-      Wednesday: [
-        { exercise: "Squats", sets: 3, reps: 10 - 12 },
-        { exercise: "Push-Ups", sets: 3, reps: 10 - 15 },
-        { exercise: "Bent Over Dumbbell Rows", sets: 3, reps: 10 - 12 },
-        { exercise: "Dumbbell Shoulder Press", sets: 3, reps: 10 - 12 },
-        { exercise: "Plank", sets: 3, duration: "30s-1min" },
-        { exercise: "Hyperextensions", sets: 3, reps: 12 - 15 },
+      "Day 2 - Back and Biceps": [
+        { exercise: "Wide Grip Chins", sets: 4, reps: "12-15" },
+        { exercise: "Wide Grip Rows", sets: 3, reps: "12" },
+        { exercise: "Narrow Grip Pulldown", sets: 4, reps: "12-15" },
+        { exercise: "Hyper Extensions", sets: 3, reps: "12" },
+        { exercise: "Concentration Curls", sets: 4, reps: "12-15" },
+        { exercise: "EZ Bar Curl", sets: 3, reps: "12" },
+      ],
+      "Day 3 - Legs and Shoulders": [
+        { exercise: "Squats", sets: 4, reps: "12-15" },
+        { exercise: "Leg Extensions", sets: 3, reps: "12" },
+        { exercise: "Leg Curl", sets: 4, reps: "12-15" },
+        { exercise: "Stiff Leg Deadlifts", sets: 3, reps: "12" },
+        { exercise: "Seated Calf Raise", sets: 3, reps: "12" },
+        { exercise: "Dumbbell Shoulders Press", sets: 4, reps: "12-15" },
+        { exercise: "Cable Lateral Raise", sets: 3, reps: "12" },
+        { exercise: "Reverse Cable Fly", sets: 3, reps: "12" },
+        { exercise: "Smith Machine Shrugs", sets: 4, reps: "12-15" },
+        { exercise: "Rope Crunch", sets: 4, reps: "20-25" },
+        { exercise: "Hanging Knee Raise", sets: 4, reps: "20-25" },
+      ],
+      "Day 4 - Chest and Triceps": [
+        { exercise: "Incline Dumbbell Press", sets: 4, reps: "12-15" },
+        { exercise: "Flat Dumbbell Press", sets: 3, reps: "12" },
+        { exercise: "Incline Flys", sets: 3, reps: "12" },
+        { exercise: "Pec Deck", sets: 3, reps: "12" },
+        { exercise: "Skull Crushers", sets: 4, reps: "12-15" },
+        { exercise: "Rope Extensions", sets: 3, reps: "12" },
+        { exercise: "Straight Bar Pushdowns", sets: 3, reps: "12" },
+        { exercise: "Rope Crunch", sets: 4, reps: "20-25" },
+        { exercise: "Hanging Knee Raise", sets: 4, reps: "20-25" },
+      ],
+      "Day 5 - Back and Biceps": [
+        { exercise: "Wide Grip Chins", sets: 4, reps: "12-15" },
+        { exercise: "Wide Grip Rows", sets: 3, reps: "12" },
+        { exercise: "Narrow Grip Pulldown", sets: 4, reps: "12-15" },
+        { exercise: "Hyper Extensions", sets: 3, reps: "12" },
+        { exercise: "Concentration Curls", sets: 4, reps: "12-15" },
+        { exercise: "EZ Bar Curl", sets: 3, reps: "12" },
+      ],
+      "Day 6 - Legs and Shoulders": [
+        { exercise: "Squats", sets: 4, reps: "12-15" },
+        { exercise: "Leg Extensions", sets: 3, reps: "12" },
+        { exercise: "Leg Curl", sets: 4, reps: "12-15" },
+        { exercise: "Stiff Leg Deadlifts", sets: 3, reps: "12" },
+        { exercise: "Seated Calf Raise", sets: 3, reps: "12" },
+        { exercise: "Dumbbell Shoulders Press", sets: 4, reps: "12-15" },
+        { exercise: "Cable Lateral Raise", sets: 3, reps: "12" },
+        { exercise: "Reverse Cable Fly", sets: 3, reps: "12" },
+        { exercise: "Smith Machine Shrugs", sets: 4, reps: "12-15" },
+        { exercise: "Rope Crunch", sets: 4, reps: "20-25" },
+        { exercise: "Hanging Knee Raise", sets: 4, reps: "20-25" },
       ],
     },
   },

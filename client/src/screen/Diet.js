@@ -14,7 +14,6 @@ function Diet() {
             <option value="vegetariana">Dieta Vegetariana</option>
           </select>
         </div>
-        <button type="submit">Conferma</button>
       </form>
       <WeeklyMealPlan />
     </div>
