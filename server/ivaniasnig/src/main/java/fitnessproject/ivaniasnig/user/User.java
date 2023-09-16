@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import fitnessproject.ivaniasnig.customtable.CustomTable;
 import fitnessproject.ivaniasnig.diet.Diet;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,6 +20,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,6 +55,9 @@ public class User implements UserDetails {
 	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diet_id")
     private Diet diet;
+	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	private List<CustomTable> customTables;
 	
     public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
             double height, double weight, Activity activity) {
