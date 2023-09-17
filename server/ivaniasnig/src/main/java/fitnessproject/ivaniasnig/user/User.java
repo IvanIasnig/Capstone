@@ -1,5 +1,6 @@
 package fitnessproject.ivaniasnig.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -57,7 +58,8 @@ public class User implements UserDetails {
     private Diet diet;
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
-	private List<CustomTable> customTables;
+	private List<CustomTable> customTables = new ArrayList<>();
+
 	
     public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
             double height, double weight, Activity activity) {

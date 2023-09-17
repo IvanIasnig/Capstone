@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import fitnessproject.ivaniasnig.user.User;
 import jakarta.persistence.CascadeType;

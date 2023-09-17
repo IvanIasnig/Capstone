@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fitnessproject.ivaniasnig.user.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -27,13 +29,13 @@ public class CustomTable {
 	private String tableName;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JsonIgnore
 	private User user;
 	
-	@OneToMany(mappedBy = "table")
-	private List<CustomEntry> entries = new ArrayList<>();
+    @OneToMany(mappedBy = "table", cascade = CascadeType.ALL)
+    private List<CustomEntry> entries = new ArrayList<>();
 
-	public CustomTable(String tableName, User user, List<CustomEntry> entries) {
+    public CustomTable(String tableName, User user, List<CustomEntry> entries) {
 		this.tableName = tableName;
 		this.user = user;
 		this.entries = entries;

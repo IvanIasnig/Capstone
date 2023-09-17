@@ -2,14 +2,12 @@ package fitnessproject.ivaniasnig.customtable;
 
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/customTables")
+@RequestMapping("/user/customtables")
 public class CustomTableController {
     
     @Autowired
@@ -27,17 +25,17 @@ public class CustomTableController {
     }
 
     @PostMapping
-    public CustomTable createCustomTable(@RequestBody CustomTable customTable) {
-        return customTableService.saveCustomTable(customTable);
+    public CustomTable createCustomTable(@RequestBody CustomTable customTable, @RequestParam UUID userId) {
+        return customTableService.saveCustomTable(customTable, userId);
     }
 
-    @PutMapping("/{id}")
-    public CustomTable updateCustomTable(@PathVariable UUID id, @RequestBody CustomTable customTable) {
-        if(!customTableService.getCustomTableById(id).isPresent()) {
-            throw new RuntimeException("CustomTable not found for id: " + id);
-        }
-        return customTableService.saveCustomTable(customTable);
-    }
+//    @PutMapping("/{id}")
+//    public CustomTable updateCustomTable(@PathVariable UUID id, @RequestBody CustomTable customTable) {
+//        if(!customTableService.getCustomTableById(id).isPresent()) {
+//            throw new RuntimeException("CustomTable not found for id: " + id);
+//        }
+//        return customTableService.saveCustomTable(customTable);
+//    }
 
     @DeleteMapping("/{id}")
     public String deleteCustomTable(@PathVariable UUID id) {

@@ -4,8 +4,6 @@ import fitnessproject.ivaniasnig.user.Activity;
 import fitnessproject.ivaniasnig.user.Role;
 import fitnessproject.ivaniasnig.user.User;
 import fitnessproject.ivaniasnig.user.sexEnum;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 
