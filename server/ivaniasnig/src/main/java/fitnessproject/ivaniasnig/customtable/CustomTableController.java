@@ -18,11 +18,6 @@ public class CustomTableController {
         return customTableService.getAllCustomTables();
     }
 
-    @GetMapping("/{id}")
-    public CustomTable getCustomTableById(@PathVariable UUID id) {
-        return customTableService.getCustomTableById(id)
-                .orElseThrow(() -> new RuntimeException("CustomTable not found for id: " + id));
-    }
 
     @PostMapping
     public CustomTable createCustomTable(@RequestBody CustomTable customTable, @RequestParam UUID userId) {

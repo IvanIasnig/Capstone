@@ -1,5 +1,6 @@
 package fitnessproject.ivaniasnig.user;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import fitnessproject.ivaniasnig.customtable.CustomTable;
 import fitnessproject.ivaniasnig.exceptions.BadRequestException;
 import fitnessproject.ivaniasnig.exceptions.NotFoundException;
 
@@ -37,6 +39,13 @@ public class UserService {
 		return userRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 	
+	public List<CustomTable> findTablesById(UUID id) throws NotFoundException {
+		
+		User user = this.findById(id);
+		
+		return user.getCustomTables();
+	}
+	
 	public User findByIdAndUpdate(UUID id, User user) throws NotFoundException {
 		User found = this.findById(id);
 		found.setSurname(user.getSurname());
@@ -54,6 +63,8 @@ public class UserService {
 	}
 	
 	public User findByEmail(String mail) {
+		System.out.println("*****************************************");
+		System.out.println(mail);
 		return userRepo.findByMail(mail).orElseThrow(() -> new NotFoundException("User not found"));
 	}
 	

@@ -15,6 +15,10 @@ function UserProfile() {
       <Link to="/userProfile/workout" className="btn btn-primary mt-3 ms-2">
         Workout
       </Link>
+
+      <Link to="/userProfile/tables" className="btn btn-primary mt-3 ms-2">
+        Tables
+      </Link>
     </div>
   );
 }

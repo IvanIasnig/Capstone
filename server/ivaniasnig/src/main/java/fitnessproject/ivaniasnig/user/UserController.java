@@ -1,5 +1,6 @@
 package fitnessproject.ivaniasnig.user;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/user")
+import fitnessproject.ivaniasnig.customtable.CustomTable;
+
 @RestController
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
@@ -31,15 +34,20 @@ public class UserController {
 	
 	// GET (by Id)
 	@GetMapping("/{id}")
-	public User findByUsername(@PathVariable UUID id) { 
+	public User findById(@PathVariable UUID id) { 
 		return userService.findById(id);
 	}
 	
-	@GetMapping("/by-email/{email}")
+	@GetMapping("/byEmail/{email}")
 	public User getUserByEmail(@PathVariable String email) {
 	    return userService.findByEmail(email);
 	}
-
+	
+	// GET Tables
+	@GetMapping("/{id}/tables")
+	public List<CustomTable> getTablesById(@PathVariable UUID id){
+		return userService.findTablesById(id);
+	}
 	
 	// PUT 
 	@PutMapping("/{id}")
