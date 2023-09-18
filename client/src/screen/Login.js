@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+} from "mdb-react-ui-kit";
 import { useAuth } from "../provider/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -30,36 +38,85 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-50 mx-auto mt-5">
-      <h3 className="text-center mb-3">Login</h3>
-      <div className="form-floating mb-3">
-        <input
-          type="email"
-          id="email"
-          name="mail"
-          className="form-control"
-          placeholder="name@example.com"
-          onChange={handleChange}
-        />
-        <label htmlFor="email">E-mail</label>
-      </div>
+    <MDBContainer
+      fluid
+      style={{
+        minHeight: "100vh",
+        background:
+          "linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))",
+      }}
+    >
+      <MDBRow className="d-flex justify-content-center align-items-center h-100">
+        <MDBCol col="12">
+          <MDBCard
+            className="bg-dark text-white my-5 mx-auto"
+            style={{ borderRadius: "1rem", maxWidth: "400px" }}
+          >
+            <MDBCardBody className="p-5 d-flex flex-column align-items-center mx-auto w-100">
+              <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+              <p className="text-white-50 mb-5">
+                Please enter your login and password!
+              </p>
 
-      <div className="form-floating mb-3">
-        <input
-          type="password"
-          id="password"
-          name="password"
-          className="form-control"
-          placeholder="Password"
-          onChange={handleChange}
-        />
-        <label htmlFor="password">Password</label>
-      </div>
+              <MDBInput
+                wrapperClass="mb-4 mx-5 w-100"
+                labelClass="text-white"
+                label="Email address"
+                id="formEmail"
+                name="mail"
+                type="email"
+                size="lg"
+                onChange={handleChange}
+              />
 
-      <button type="submit" className="btn btn-primary w-100">
-        Login
-      </button>
-    </form>
+              <MDBInput
+                wrapperClass="mb-4 mx-5 w-100"
+                labelClass="text-white"
+                label="Password"
+                id="formPassword"
+                name="password"
+                type="password"
+                size="lg"
+                onChange={handleChange}
+              />
+
+              <button
+                className="btn btn-lg mx-2 px-5 text-white mb-3"
+                onClick={handleSubmit}
+                style={{
+                  background:
+                    "linear-gradient(to right, rgba(0, 17, 203, 1), rgba(255, 0, 0, 0.8))",
+                  borderColor: "rgba(106, 17, 203, 1)",
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow =
+                    "0 6px 15px rgba(0, 0, 0, 0.1)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 6px rgba(0, 0, 0, 0.1)";
+                }}
+              >
+                Login
+              </button>
+
+              <div>
+                <p className="mb-0">
+                  Don't have an account?{" "}
+                  <Link to="/registration" className="text-white-50 fw-bold">
+                    Sign Up
+                  </Link>
+                </p>
+              </div>
+            </MDBCardBody>
+          </MDBCard>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
   );
 }
 
