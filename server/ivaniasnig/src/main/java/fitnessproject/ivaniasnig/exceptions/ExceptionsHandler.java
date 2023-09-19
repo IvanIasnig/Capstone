@@ -17,7 +17,7 @@ public class ExceptionsHandler {
 	@ExceptionHandler(UnauthorizedException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public ErrorPayload handleUnauthorized (UnauthorizedException e) {
-		return new ErrorPayload("BAD REQUEST ERROR -> " + e.getMessage());
+		return new ErrorPayload("UNAUTHORIZED ERROR -> " + e.getMessage());
 	}
 	
 

@@ -87,20 +87,24 @@ function RegistrationApp() {
                 >
                   <label>{field.label}</label>
                   {field.name === "sex" ? (
-                    <select
-                      className="form-control"
+                    <MDBInput
+                      id={`form${index}`}
+                      type="text"
+                      className="w-100"
                       name="sex"
+                      placeholder="M/F"
+                      value={formData["sex"] || ""}
                       onChange={handleChange}
-                    >
-                      <option value="M">M</option>
-                      <option value="F">F</option>
-                    </select>
+                    />
                   ) : field.name === "activity" ? (
                     <select
                       className="form-control"
                       name="activity"
                       onChange={handleChange}
                     >
+                      <option value="" disabled selected>
+                        Seleziona l'attività
+                      </option>
                       <option value="SEDENTARY">SEDENTARY</option>
                       <option value="MILDLY">MILDLY</option>
                       <option value="MODERATLY">MODERATLY</option>

@@ -1,32 +1,83 @@
 import React from "react";
 import workoutPlans from "../data/workoutPlans";
+import {
+  Container,
+  Card,
+  CardHeader,
+  CardContent,
+  List,
+  ListItem,
+  Typography,
+} from "@mui/material";
 
 function Workout() {
-  // Parse activity from localStorage
-  const userActivity = JSON.parse(localStorage.getItem("restOfData")).activity;
-  console.log(userActivity);
+  const backgrounds = [
+    "url('https://cdn.wallpapersafari.com/44/77/8b1JrK.jpg')",
+    "url('https://e0.pxfuel.com/wallpapers/39/873/desktop-wallpaper-six-pack-abs-six-pack-abs-fitness-ab.jpg')",
+    "url('https://i.pinimg.com/originals/bc/79/a4/bc79a4fe9aa1f6e56f5d00a01ad0dae2.jpg')",
+  ];
 
-  // Get the workout plan based on user's activity
+  const userActivity = JSON.parse(localStorage.getItem("restOfData")).activity;
   const userWorkoutPlan = workoutPlans[userActivity];
 
   return (
-    <div className="container my-5">
-      <h1 className="display-3 text-center mb-4">Weekly Training</h1>
-      {Object.entries(userWorkoutPlan.week).map(([day, exercises]) => (
-        <div key={day} className="card mb-4">
-          <div className="card-header bg-primary text-white">
-            <h2 className="mb-0">{day}</h2>
-          </div>
-          <ul className="list-group list-group-flush">
-            {exercises.map((exercise, index) => (
-              <li key={index} className="list-group-item">
-                <strong className="text-uppercase">{exercise.exercise}</strong>{" "}
-                - {exercise.sets} sets of {exercise.reps} reps
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+    <div style={{ background: "black" }}>
+      <Container sx={{ padding: "8px", background: "black" }}>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            fontSize: "2rem",
+            textAlign: "center",
+            mb: 4,
+            fontWeight: 600,
+            color: "white",
+          }}
+        >
+          Weekly Training
+        </Typography>
+        {Object.entries(userWorkoutPlan.week).map(([day, exercises], idx) => (
+          <Card
+            key={day}
+            sx={{
+              mb: 4,
+              borderRadius: 15,
+              backgroundImage: backgrounds[idx % backgrounds.length],
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              color: "common.white",
+              boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+              transition: "transform 0.3s",
+              "&:hover": {
+                transform: "scale(1.1)",
+                zIndex: 1,
+              },
+            }}
+          >
+            <CardHeader
+              title={day}
+              sx={{
+                fontSize: "1.5rem",
+                fontWeight: 500,
+                textAlign: "center",
+              }}
+              titleTypographyProps={{ variant: "h5" }}
+            />
+            <CardContent>
+              <List>
+                {exercises.map((exercise, index) => (
+                  <ListItem key={index}>
+                    <Typography sx={{ fontSize: "1.1rem" }}>
+                      <strong>{exercise.exercise}</strong> - {exercise.sets}{" "}
+                      sets of {exercise.reps} reps
+                    </Typography>
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        ))}
+      </Container>
     </div>
   );
 }

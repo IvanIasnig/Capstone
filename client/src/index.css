@@ -11,9 +11,19 @@ code {
     monospace;
 }
 
-html,
 body {
   padding: 0;
   margin: 0;
   height: 100vh;
 }
+
+.textShd {
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+/* WORKOUT SCHEDULE*/
+
+
+/* https://cdn-wp.thesportsrush.com/2022/12/a3187167-screenshot_28.png */

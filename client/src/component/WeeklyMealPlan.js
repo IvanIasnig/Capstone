@@ -2,6 +2,28 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import Papa from "papaparse";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+  Box,
+} from "@mui/material";
+
+const mealArr = function (meal) {
+  if (meal === "breakfast") return "Breakfast";
+  if (meal === "morningSnack") return "Morning Snack";
+  if (meal === "lunch") return "Lunch";
+  if (meal === "afternoonSnack") return "Afternoon Snack";
+  if (meal === "dinner") return "Dinner";
+};
 
 const WeeklyMealPlan = () => {
   const [response, setResponse] = useState(null);
@@ -158,59 +180,129 @@ const WeeklyMealPlan = () => {
     }
   };
 
+  const backgroundImages = [
+    "https://c1.wallpaperflare.com/preview/112/406/444/food-diet-keto-ketodieta.jpg",
+    "https://e0.pxfuel.com/wallpapers/461/215/desktop-wallpaper-diet-diet-motivation-healthy-food.jpg",
+    "https://parade.com/.image/t_share/MTkwNTc1OTc4ODE4Nzc0MTQx/mediterranean-diet-ftr.jpg",
+    "https://c1.wallpaperflare.com/preview/112/406/444/food-diet-keto-ketodieta.jpg",
+    "https://e0.pxfuel.com/wallpapers/461/215/desktop-wallpaper-diet-diet-motivation-healthy-food.jpg",
+    "https://c1.wallpaperflare.com/preview/112/406/444/food-diet-keto-ketodieta.jpg",
+    "https://parade.com/.image/t_share/MTkwNTc1OTc4ODE4Nzc0MTQx/mediterranean-diet-ftr.jpg",
+  ];
+
   return (
-    <div className="container mt-4">
-      {Object.entries(dayDiets).map(([day, meals]) => (
-        <div key={day} className="card mb-4">
-          <div className="card-header">
-            {day} - Total Calories: {calculateCaloriesForDay(meals)} kcal
-          </div>
-          <div className="card-body">
-            {Object.entries(meals).map(([meal, details]) => (
-              <div key={meal} className="mb-3 row">
-                <label className="col-sm-2 col-form-label">{meal}</label>
-                <div className="col-sm-4">
-                  <select
-                    className="form-control"
-                    value={details.food}
-                    onChange={(e) =>
-                      handleInputChange(day, meal, "food", e.target.value)
-                    }
-                  >
-                    <option value="">Seleziona un cibo...</option>
-                    {availableFoods.map((food, index) => (
-                      <option key={`${food}-${index}`} value={food}>
-                        {food}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="col-sm-3">
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Grammi"
-                    value={details.grams}
-                    onChange={(e) =>
-                      handleInputChange(day, meal, "grams", e.target.value)
-                    }
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+    <Container
+      sx={{
+        mt: 4,
+        backgroundImage:
+          "https://img.wallpapic.it/i5921-731-915/medium/frutta-e-verdura-frutti-di-bosco-rossi-sfondo.jpg",
+      }}
+    >
+      <Box
+        sx={{
+          padding: "1rem",
+          mt: 4,
+          mb: 4,
+          borderRadius: "30px !important",
+          backgroundColor: "rgba(0,0,0,0.5)",
+          border: "1px solid #fff",
+        }}
+      >
+        <Typography variant="h6" className="text-white">
+          Total Kcal per day : {totalKcal()}
+        </Typography>
+      </Box>
+      {Object.entries(dayDiets).map(([day, meals], dayIndex) => (
+        <Card
+          key={day}
+          sx={{ mb: 4, backgroundImage: `url(${backgroundImages[dayIndex]})` }}
+          className="text-white"
+        >
+          <CardHeader
+            title={`${day} - Total Calories: ${calculateCaloriesForDay(
+              meals
+            )} kcal`}
+          />
+          <CardContent>
+            <Grid container spacing={2}>
+              {Object.entries(meals).map(([meal, details]) => (
+                <Grid
+                  container
+                  key={meal}
+                  spacing={2}
+                  alignItems="center"
+                  className="text-white textShd"
+                >
+                  <Grid item xs={2}>
+                    <InputLabel className="text-white fs-5 ms-3">
+                      {mealArr(meal)}
+                    </InputLabel>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Select
+                      fullWidth
+                      className="text-white mb-2"
+                      value={details.food}
+                      onChange={(e) =>
+                        handleInputChange(day, meal, "food", e.target.value)
+                      }
+                      style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+                    >
+                      <MenuItem value="" className="text-white">
+                        <em>Seleziona un cibo...</em>
+                      </MenuItem>
+                      {availableFoods.map((food, index) => (
+                        <MenuItem key={`${food}-${index}`} value={food}>
+                          {food}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      type="number"
+                      placeholder="Grammi"
+                      value={details.grams}
+                      onChange={(e) =>
+                        handleInputChange(day, meal, "grams", e.target.value)
+                      }
+                      InputProps={{ className: "text-white" }}
+                      style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+                    />
+                  </Grid>
+                </Grid>
+              ))}
+            </Grid>
+          </CardContent>
+        </Card>
       ))}
-      <button onClick={postData} className="btn btn-primary">
-        Invia Piano Alimentare
-      </button>
-      <div>{totalKcal()}</div>
+      <div className="text-center my-4">
+        <Button
+          variant="contained"
+          onClick={postData}
+          className="btn-lg mb-4"
+          style={{
+            background: "black",
+            borderColor: "white",
+            boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
+            fontSize: "1.2rem",
+          }}
+        >
+          Invia Piano Alimentare
+        </Button>
+      </div>
+
       {response && (
-        <div className="mt-4 alert alert-info">
+        <Typography
+          variant="body1"
+          sx={{ mt: 4, p: 2, border: "1px solid", borderColor: "divider" }}
+          className="text-white"
+        >
           Risposta del server: {JSON.stringify(response)}
-        </div>
+        </Typography>
       )}
-    </div>
+    </Container>
   );
 };
 

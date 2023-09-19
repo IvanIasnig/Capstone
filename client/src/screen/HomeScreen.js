@@ -1,28 +1,49 @@
-import { Link } from "react-router-dom";
 import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Card, CardContent, Typography, Box } from "@mui/material";
 
 const HomeScreen = () => {
   return (
-    <>
-      <div className="card">
-        <div className="card-body d-flex flex-column justify-content-center align-items-center">
-          <div className="m-1">Already have an account?</div>
-          <Link
+    <Card elevation={3}>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography variant="h6" gutterBottom>
+          Already have an account?
+        </Typography>
+
+        <Box m={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
             to="/login"
-            className="btn btn-primary m-1 text-decoration-none"
           >
             Login
-          </Link>
-          <div className="m-1">or</div>
-          <Link
+          </Button>
+        </Box>
+
+        <Typography variant="subtitle1" gutterBottom>
+          or
+        </Typography>
+
+        <Box m={1}>
+          <Button
+            variant="outlined"
+            color="primary"
+            component={Link}
             to="/registration"
-            className="btn btn-primary m-1 text-decoration-none"
           >
             Register
-          </Link>
-        </div>
-      </div>
-    </>
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
