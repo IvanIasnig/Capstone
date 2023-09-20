@@ -42,7 +42,7 @@ public class CustomTableService {
         customTable.setUser(user);
         
         user.getCustomTables().add(customTable);
-        userRepo.save(user);
+      //  userRepo.save(user);
 
         return customTableRepository.save(customTable);
     }
