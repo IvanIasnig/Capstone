@@ -4,9 +4,13 @@ import axios from "axios";
 const AuthContext = createContext();
 
 function AuthProvider(props) {
-  const [authToken, setAuthToken] = useState(null);
-  const [name, setName] = useState(null);
-  const [rof, setRof] = useState({});
+  const initialAuthToken = localStorage.getItem("authToken");
+  const initialName = localStorage.getItem("name");
+  const initialRof = JSON.parse(localStorage.getItem("restOfData")) || {};
+
+  const [authToken, setAuthToken] = useState(initialAuthToken);
+  const [name, setName] = useState(initialName);
+  const [rof, setRof] = useState(initialRof);
 
   const login = async (credentials) => {
     try {
@@ -56,4 +60,3 @@ function AuthProvider(props) {
 const useAuth = () => useContext(AuthContext);
 
 export { AuthProvider, useAuth };
-

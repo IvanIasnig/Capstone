@@ -9,6 +9,7 @@ import {
   ListItem,
   Typography,
 } from "@mui/material";
+import NavBar from "../component/Navbar";
 
 function Workout() {
   const backgrounds = [
@@ -22,6 +23,7 @@ function Workout() {
 
   return (
     <div style={{ background: "black" }}>
+      <NavBar />
       <Container sx={{ padding: "8px", background: "black" }}>
         <Typography
           variant="h4"

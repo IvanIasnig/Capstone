@@ -24,13 +24,10 @@ public class CustomTableController {
         return customTableService.saveCustomTable(customTable, userId);
     }
 
-//    @PutMapping("/{id}")
-//    public CustomTable updateCustomTable(@PathVariable UUID id, @RequestBody CustomTable customTable) {
-//        if(!customTableService.getCustomTableById(id).isPresent()) {
-//            throw new RuntimeException("CustomTable not found for id: " + id);
-//        }
-//        return customTableService.saveCustomTable(customTable);
-//    }
+    @PostMapping("/{id}/entries")
+    public CustomTable addEntryToTable(@PathVariable UUID id, @RequestBody CustomEntry newEntry) {
+        return customTableService.addEntry(id, newEntry);
+    }
 
     @DeleteMapping("/{id}")
     public String deleteCustomTable(@PathVariable UUID id) {

@@ -42,11 +42,21 @@ public class CustomTableService {
         customTable.setUser(user);
         
         user.getCustomTables().add(customTable);
-      //  userRepo.save(user);
 
         return customTableRepository.save(customTable);
     }
+    
+    @Transactional
+    public CustomTable addEntry(UUID id, CustomEntry newEntry) {
+        CustomTable existingTable = customTableRepository.findById(id)
+          .orElseThrow(() -> new IllegalArgumentException("Table not found"));
 
+        newEntry.setTable(existingTable); 
+
+        existingTable.getEntries().add(newEntry); 
+
+        return customTableRepository.save(existingTable);
+    }
 
     
    

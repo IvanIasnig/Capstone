@@ -12,8 +12,13 @@ import {
   Container,
 } from "@mui/material";
 import Tables from "../component/Tables";
+import NavBar from "../component/Navbar";
 
 function AllTables() {
+  const [selectedTableId, setSelectedTableId] = useState("");
+  const [inputEntryName, setInputEntryName] = useState("");
+  const [inputEntryValue, setInputEntryValue] = useState("");
+
   const [tables, setTables] = useState([]);
   const [responseMessage, setResponseMessage] = useState("");
   const [tableName, setTableName] = useState("");
@@ -87,6 +92,33 @@ function AllTables() {
     fetchData();
   }, [authToken]);
 
+  const handleButtonClick = (tableId) => {
+    console.log("ID della tabella:", tableId);
+  };
+
+  const addEntryToTable = async (tableId) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/user/customtables/${tableId}/entries`,
+        {
+          entryName: inputEntryName,
+          entryValue: inputEntryValue,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+      setInputEntryName("");
+      setInputEntryValue("");
+    } catch (error) {
+      console.error("Errore nell'aggiungere l'entry:", error);
+    }
+  };
+
   return (
     <div
       style={{
@@ -97,6 +129,7 @@ function AllTables() {
         backgroundAttachment: "fixed",
       }}
     >
+      <NavBar />
       <Container style={{ backgroundColor: "rgba(0, 0, 0, 0)", color: "#FFF" }}>
         <Typography variant="h4" gutterBottom style={{ color: "#FFF" }}>
           Create a new table
@@ -226,6 +259,7 @@ function AllTables() {
 
         <Grid container spacing={3}>
           {tables.map((table, idx) => {
+            //console.log(table);
             const labels = table.entries.map((entry) => entry.entryName);
             const data = table.entries.map((entry) => entry.entryValue);
             const chartData = {
@@ -261,13 +295,42 @@ function AllTables() {
                     {table.tableName}
                   </Typography>
                   <div style={{ height: "400px" }}>
-                    {" "}
-                    {/* Definisci qui l'altezza */}
                     <Line
                       data={chartData}
                       options={{ maintainAspectRatio: false }}
                     />
                   </div>
+
+                  <form
+                    noValidate
+                    autoComplete="off"
+                    style={{ marginTop: "16px" }}
+                  >
+                    <TextField
+                      label="Entry Name"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      value={inputEntryName}
+                      onChange={(e) => setInputEntryName(e.target.value)}
+                    />
+                    <TextField
+                      label="Entry Value"
+                      variant="outlined"
+                      fullWidth
+                      margin="normal"
+                      value={inputEntryValue}
+                      onChange={(e) => setInputEntryValue(e.target.value)}
+                    />
+                    <Button
+                      style={{ marginTop: "8px" }}
+                      variant="contained"
+                      color="primary"
+                      onClick={() => addEntryToTable(table.id)}
+                    >
+                      Add Entry
+                    </Button>
+                  </form>
                 </Paper>
               </Grid>
             );
