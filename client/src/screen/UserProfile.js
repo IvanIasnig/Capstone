@@ -1,11 +1,8 @@
 import React from "react";
-import { useAuth } from "../provider/AuthProvider";
 import { Link as RouterLink } from "react-router-dom";
-import { Button, Box, Typography } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
 function UserProfile() {
-  const { name } = useAuth();
-
   const sections = [
     {
       label: "Diet",
@@ -29,17 +26,6 @@ function UserProfile() {
 
   return (
     <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-      <Typography
-        variant="h4"
-        position="absolute"
-        top="5%"
-        left="50%"
-        transform="translateX(-50%)"
-        zIndex="2"
-      >
-        Benvenuto, {name}!
-      </Typography>
-
       {sections.map((section) => (
         <Box
           key={section.label}
@@ -52,13 +38,23 @@ function UserProfile() {
             backgroundSize: "cover",
             transition: "0.3s ease-in-out",
             "&:hover": {
-              opacity: 0.8,
+              transition: "0.3s ease-in-out",
+              scale: "1.1",
             },
           }}
         >
           <Button
             variant="contained"
-            color="secondary"
+            sx={{
+              scale: "1.2",
+              backgroundColor: "black ",
+              borderColor: "white",
+              border: "1px solid white",
+              boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
+              "&:hover": {
+                backgroundColor: "blue",
+              },
+            }}
             component={RouterLink}
             to={section.link}
             size="large"

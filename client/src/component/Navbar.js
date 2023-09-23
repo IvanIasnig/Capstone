@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
-import { Button, Drawer } from "@mui/material";
+import { Drawer } from "@mui/material";
 import { useAuth } from "../provider/AuthProvider";
 
 const NavBar = () => {
@@ -20,7 +20,13 @@ const NavBar = () => {
     <div>
       <AppBar
         position="static"
-        sx={{ backgroundColor: "rgba(32, 24, 70)", color: "white" }}
+        sx={{
+          backgroundColor: "rgba(30, 30, 30)",
+          color: "white",
+          position: "fixed",
+          zIndex: 2,
+        }}
+        className="mb-3"
       >
         <Toolbar>
           <IconButton
@@ -37,59 +43,46 @@ const NavBar = () => {
             {rof.username}
           </Typography>
           <div className="d-none d-sm-flex">
-            {" "}
-            <Button>
-              <Link
-                to="/userProfile/diet"
-                className="text-white fw-bold text-decoration-none"
-              >
-                Diet
-              </Link>
-            </Button>
-            <Button color="inherit" to="/link2">
-              <Link
-                to="/userProfile/workout"
-                className="text-white fw-bold text-decoration-none"
-              >
-                Workout
-              </Link>
-            </Button>
-            <Button color="inherit" to="/link3">
-              <Link
-                to="/userProfile/tables"
-                className="text-white fw-bold text-decoration-none"
-              >
-                Progress
-              </Link>
-            </Button>
+            <Link
+              to="/userProfile/diet"
+              className="text-white fw-bold text-decoration-none me-5 linkStyle"
+            >
+              Diet
+            </Link>
+            <Link
+              to="/userProfile/workout"
+              className="text-white fw-bold text-decoration-none me-5 linkStyle"
+            >
+              Workout
+            </Link>
+            <Link
+              to="/userProfile/tables"
+              className="text-white fw-bold text-decoration-none me-5 linkStyle"
+            >
+              Progress
+            </Link>
           </div>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerToggle}>
-        <Button>
-          <Link
-            to="/userProfile/diet"
-            className="text-white fw-bold text-decoration-none"
-          >
-            Diet
-          </Link>
-        </Button>
-        <Button color="inherit" to="/link2">
-          <Link
-            to="/userProfile/workout"
-            className="text-white fw-bold text-decoration-none"
-          >
-            Workout
-          </Link>
-        </Button>
-        <Button color="inherit" to="/link3">
-          <Link
-            to="/userProfile/tables"
-            className="text-white fw-bold text-decoration-none"
-          >
-            Progress
-          </Link>
-        </Button>
+        <Link
+          to="/userProfile/diet"
+          className="text-black fw-bold text-decoration-none m-3 linkStyle"
+        >
+          Diet
+        </Link>
+        <Link
+          to="/userProfile/workout"
+          className="text-black fw-bold text-decoration-none m-3 linkStyle"
+        >
+          Workout
+        </Link>
+        <Link
+          to="/userProfile/tables"
+          className="text-black fw-bold text-decoration-none m-3 linkStyle"
+        >
+          Progress
+        </Link>
       </Drawer>
     </div>
   );

@@ -103,13 +103,13 @@ function RegistrationApp() {
                       onChange={handleChange}
                     >
                       <option value="" disabled selected>
-                        Seleziona l'attività
+                        Select activity:
                       </option>
-                      <option value="SEDENTARY">SEDENTARY</option>
-                      <option value="MILDLY">MILDLY</option>
-                      <option value="MODERATLY">MODERATLY</option>
-                      <option value="VERY">VERY</option>
-                      <option value="EXTRA">EXTRA</option>
+                      <option value="SEDENTARY">One per week</option>
+                      <option value="MILDLY">Two per week</option>
+                      <option value="MODERATLY">Three per week</option>
+                      <option value="VERY">Five per week</option>
+                      <option value="EXTRA">Six per week</option>
                     </select>
                   ) : (
                     <MDBInput

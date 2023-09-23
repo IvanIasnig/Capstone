@@ -2,6 +2,7 @@ package fitnessproject.ivaniasnig.user;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import fitnessproject.ivaniasnig.customtable.CustomTable;
+import fitnessproject.ivaniasnig.images.Image;
+import fitnessproject.ivaniasnig.images.ImageResponse;
 
 @RestController
 @RequestMapping("/user")
@@ -49,6 +52,12 @@ public class UserController {
 		return userService.findTablesById(id);
 	}
 	
+	// GET IMAGES
+	@GetMapping("/{id}/images")
+	public List<Image> getImagesById(@PathVariable UUID id) {
+		return userService.findImagesById(id);
+	}
+
 	// PUT 
 	@PutMapping("/{id}")
 	public User findAndUpdate(@PathVariable UUID id, @RequestBody User body) {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import fitnessproject.ivaniasnig.customtable.CustomTable;
 import fitnessproject.ivaniasnig.exceptions.BadRequestException;
 import fitnessproject.ivaniasnig.exceptions.NotFoundException;
+import fitnessproject.ivaniasnig.images.Image;
 
 import org.springframework.data.domain.Pageable;
 
@@ -44,6 +45,11 @@ public class UserService {
 		User user = this.findById(id);
 		
 		return user.getCustomTables();
+	}
+	
+	public List<Image> findImagesById(UUID id) throws NotFoundException{
+		User user =  this.findById(id);
+		return user.getImages();
 	}
 	
 	public User findByIdAndUpdate(UUID id, User user) throws NotFoundException {

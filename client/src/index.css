@@ -13,10 +13,12 @@ code {
     monospace;
 }
 
-body {
-  padding: 0;
+body,
+html {
   margin: 0;
-  height: 100vh;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .textShd {
@@ -27,11 +29,33 @@ body {
 
 /* WORKOUT SCHEDULE*/
 
-.ciao {
-  color: rgba(32, 24, 70);
-}
 /* https://cdn-wp.thesportsrush.com/2022/12/a3187167-screenshot_28.png */
 
 .customFont {
   font-family: "Roboto", sans-serif;
+}
+
+.linkStyle {
+  font-size: 20px;
+  position: relative;
+  display: inline-block; /* necessario per posizionare correttamente l'elemento ::after */
+  overflow: hidden; /* mantiene l'elemento ::after all'interno del link */
+}
+
+.linkStyle::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px; /* altezza della sottolineatura */
+  background-color: orange;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease-in-out; /* animazione graduale */
+}
+
+.linkStyle:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }

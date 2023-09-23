@@ -92,10 +92,6 @@ function AllTables() {
     fetchData();
   }, [authToken]);
 
-  const handleButtonClick = (tableId) => {
-    console.log("ID della tabella:", tableId);
-  };
-
   const addEntryToTable = async (tableId) => {
     try {
       const response = await axios.post(
@@ -119,9 +115,28 @@ function AllTables() {
     }
   };
 
+  const deleteTable = async (tableId) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/user/customtables/${tableId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Errore nell'eliminare la tabella: ", error);
+    }
+  };
+
   return (
     <div
       style={{
+        width: "100%",
+        height: "100%",
         backgroundImage: "url(https://wallpapercave.com/wp/wp7578886.jpg)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -130,7 +145,12 @@ function AllTables() {
       }}
     >
       <NavBar />
-      <Container style={{ backgroundColor: "rgba(0, 0, 0, 0)", color: "#FFF" }}>
+      <Container
+        sx={{
+          backgroundColor: "rgba(0, 0, 0, 0)",
+          color: "#FFF",
+        }}
+      >
         <Typography variant="h4" gutterBottom style={{ color: "#FFF" }}>
           Create a new table
         </Typography>
@@ -142,8 +162,8 @@ function AllTables() {
             backgroundColor: "#333",
           }}
         >
-          <Grid container spacing={3} alignItems="center">
-            <Grid item xs={6}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 label="Table Name"
@@ -282,7 +302,7 @@ function AllTables() {
             };
 
             return (
-              <Grid item xs={12} sm={4} key={idx}>
+              <Grid item xs={12} sm={6} key={idx}>
                 <Paper
                   style={{
                     padding: "16px",
@@ -329,6 +349,14 @@ function AllTables() {
                       onClick={() => addEntryToTable(table.id)}
                     >
                       Add Entry
+                    </Button>
+                    <Button
+                      style={{ marginTop: "8px", backgroundColor: "red" }}
+                      className="ms-2"
+                      variant="contained"
+                      onClick={() => deleteTable(table.id)}
+                    >
+                      Delete Table
                     </Button>
                   </form>
                 </Paper>

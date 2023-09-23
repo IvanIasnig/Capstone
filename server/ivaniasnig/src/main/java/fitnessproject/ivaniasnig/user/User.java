@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fitnessproject.ivaniasnig.customtable.CustomTable;
 import fitnessproject.ivaniasnig.diet.Diet;
+import fitnessproject.ivaniasnig.images.Image;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -59,7 +60,9 @@ public class User implements UserDetails {
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
 	private List<CustomTable> customTables = new ArrayList<>();
-
+	
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+    private List<Image> images = new ArrayList<>();
 	
     public User(String surname, String name, int age, sexEnum sex, String password, String mail, String username,
             double height, double weight, Activity activity) {
