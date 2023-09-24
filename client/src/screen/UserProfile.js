@@ -1,36 +1,49 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Button, Box } from "@mui/material";
+import dietImage from "../images/diet4.jpg";
+import workoutImage from "../images/workout.jpg";
+import statsImage from "../images/stats.jpg";
+import photocameraImage from "../images/photocamera.jpg";
 
 function UserProfile() {
   const sections = [
     {
       label: "Diet",
       link: "/userProfile/diet",
-      backgroundImage:
-        "https://wallpapers.com/images/hd/food-4k-1pf6px6ryqfjtnyr.jpg",
+      backgroundImage: dietImage,
     },
     {
       label: "Workout",
       link: "/userProfile/workout",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z3ltfGVufDB8fDB8fHww&w=1000&q=80",
+      backgroundImage: workoutImage,
     },
     {
       label: "Tables",
       link: "/userProfile/tables",
-      backgroundImage:
-        "https://e0.pxfuel.com/wallpapers/210/603/desktop-wallpaper-blonde-girl-fitness-dumbbell-athletic-young-woman-sport-girls.jpg",
+      backgroundImage: statsImage,
+    },
+    {
+      label: "Photos",
+      link: "/userProfile/photos",
+      backgroundImage: photocameraImage,
     },
   ];
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        height: "auto",
+        overflow: "hidden",
+      }}
+    >
       {sections.map((section) => (
         <Box
           key={section.label}
           sx={{
-            flex: "1 1 0%",
+            height: "500px", // Questa è l'altezza fissa per ciascuna sezione
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -47,7 +60,7 @@ function UserProfile() {
             variant="contained"
             sx={{
               scale: "1.2",
-              backgroundColor: "black ",
+              backgroundColor: "black",
               borderColor: "white",
               border: "1px solid white",
               boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",

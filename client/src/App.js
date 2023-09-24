@@ -7,6 +7,7 @@ import Diet from "./screen/Diet";
 import Workout from "./screen/Workout";
 import AllTables from "./screen/AllTables";
 import Photo from "./screen/Photo";
+import Logo from "./component/Logo";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/userProfile/workout" element={<Workout />} />
           <Route path="/userProfile/tables" element={<AllTables />} />
           <Route path="/userProfile/photos" element={<Photo />} />
+          <Route path="/userProfile/logo" element={<Logo />} />
         </Routes>
       </AuthProvider>
     </Router>

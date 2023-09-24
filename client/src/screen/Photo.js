@@ -5,12 +5,26 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import { Grid, Input, Button, Dialog } from "@mui/material";
+import NavBar from "../component/Navbar";
 
 function ImageUploader() {
   const [file, setFile] = useState(null);
   const [images, setImages] = useState([]);
   const authToken = localStorage.getItem("authToken");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  console.log(file);
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   function getUserIdFromToken() {
     const token = localStorage.getItem("authToken");
@@ -46,6 +60,11 @@ function ImageUploader() {
     }
   };
 
+  useEffect(() => {
+    const userId = getUserIdFromToken();
+    fetchAndSetImage(userId);
+  }, []);
+
   const onUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
@@ -71,40 +90,158 @@ function ImageUploader() {
     }
   };
 
-  console.log(images[0].data);
-  console.log(images[1].data);
   return (
-    <div>
-      <input type="file" onChange={onFileChange} />
-      <button onClick={onUpload} className="btn btn-primary mb-3">
-        Carica
-      </button>
+    <>
+      <NavBar></NavBar>
+      <div style={{ padding: "2em", backgroundColor: "black" }}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{ textAlign: "center", marginBottom: "1em" }}
+        >
+          Image Uploader
+        </Typography>
 
-      <Grid container spacing={3}>
-        {images &&
-          images.map((image, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card elevation={3}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={`data:image/png;base64,${image.data}`}
-                  alt={`Uploaded ${index}`}
-                />
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    Immagine {index + 1}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Questa è l'immagine numero {index + 1} caricata.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-      </Grid>
-    </div>
+        <div
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "1em",
+          }}
+          className="mb-5"
+        >
+          <Input
+            type="file"
+            onChange={onFileChange}
+            sx={{ display: "none" }}
+            id="file-input"
+          />
+          <label htmlFor="file-input">
+            <Button
+              component="span"
+              variant="contained"
+              sx={{
+                color: "common.white",
+                backgroundColor: "primary.main",
+                "&:hover": {
+                  backgroundColor: "primary.dark",
+                },
+              }}
+            >
+              Seleziona
+            </Button>
+          </label>
+
+          <Button
+            onClick={onUpload}
+            variant="outlined"
+            sx={{
+              color: "primary.main",
+              marginLeft: "1em",
+              borderColor: "primary.main",
+            }}
+          >
+            Carica
+          </Button>
+          {file && (
+            <Typography
+              sx={{
+                color: "white",
+                marginTop: "20px",
+                padding: "0.2em 0.5em",
+                backgroundColor: "rgba(30, 30, 30, 0.7)",
+                borderRadius: "5px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {file.name} loaded correctly!
+            </Typography>
+          )}
+        </div>
+
+        <Grid container spacing={1}>
+          {images &&
+            images.map((image, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={3}
+                key={index}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Card
+                  elevation={10}
+                  sx={{
+                    marginTop: "1rem",
+                    maxWidth: "90%",
+                    width: "100%",
+                    borderRadius: "0.5em",
+                    overflow: "hidden",
+                    boxShadow: "0px 0px 15px rgba(0,0,0,0.1)",
+                    transition: "0.3s",
+                    "&:hover": {
+                      transform: "translateY(-5px)",
+                      boxShadow: "0px 5px 20px rgba(0,0,0,0.2)",
+                    },
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      width: "100%",
+                      height: "auto",
+                      transition: "0.3s",
+                      "&:hover": {
+                        transform: "scale(1.03)",
+                      },
+                    }}
+                    image={`data:image/png;base64,${image.data}`}
+                    alt={`Uploaded ${index}`}
+                    onClick={() => handleImageClick(image)}
+                  />
+                  <CardContent>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                      sx={{
+                        fontWeight: "bold",
+                        marginTop: "1em",
+                        textAlign: "center",
+                      }}
+                    >
+                      {image.name.replace(/\..+$/, "")}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+        </Grid>
+        <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+          <img
+            src={`data:image/png;base64,${
+              selectedImage ? selectedImage.data : ""
+            }`}
+            alt="Selected"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </Dialog>
+      </div>
+    </>
   );
 }
 
 export default ImageUploader;
+
+/* <CardContent>
+    <Typography variant="h6" gutterBottom>
+        Immagine {index + 1}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+              Questa è l'immagine numero {index + 1} caricata.
+          </Typography>
+    </CardContent> 
+    */

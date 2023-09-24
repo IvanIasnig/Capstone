@@ -10,12 +10,21 @@ import {
   Typography,
 } from "@mui/material";
 import NavBar from "../component/Navbar";
+import gym1 from "../images/gym1.jpg";
+import gym2 from "../images/gym2.jpg";
+import gym3 from "../images/gym3.jpg";
+import gym4 from "../images/gym4.jpg";
+import gym5 from "../images/gym5.jpg";
+import gym6 from "../images/gym6.jpg";
 
 function Workout() {
   const backgrounds = [
-    "url('https://cdn.wallpapersafari.com/44/77/8b1JrK.jpg')",
-    "url('https://e0.pxfuel.com/wallpapers/39/873/desktop-wallpaper-six-pack-abs-six-pack-abs-fitness-ab.jpg')",
-    "url('https://i.pinimg.com/originals/bc/79/a4/bc79a4fe9aa1f6e56f5d00a01ad0dae2.jpg')",
+    `url(${gym6})`,
+    `url(${gym3})`,
+    `url(${gym2})`,
+    `url(${gym4})`,
+    `url(${gym5})`,
+    `url(${gym1})`,
   ];
 
   const userActivity = JSON.parse(localStorage.getItem("restOfData")).activity;

@@ -13,12 +13,11 @@ code {
     monospace;
 }
 
+html,
 body,
-html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
+#root {
   height: 100%;
+  margin: 0;
 }
 
 .textShd {
@@ -27,9 +26,7 @@ html {
     1px 1px 0 #000;
 }
 
-/* WORKOUT SCHEDULE*/
-
-/* https://cdn-wp.thesportsrush.com/2022/12/a3187167-screenshot_28.png */
+/* navbar*/
 
 .customFont {
   font-family: "Roboto", sans-serif;
@@ -38,8 +35,8 @@ html {
 .linkStyle {
   font-size: 20px;
   position: relative;
-  display: inline-block; /* necessario per posizionare correttamente l'elemento ::after */
-  overflow: hidden; /* mantiene l'elemento ::after all'interno del link */
+  display: inline-block;
+  overflow: hidden;
 }
 
 .linkStyle::after {
@@ -58,4 +55,106 @@ html {
 .linkStyle:hover::after {
   transform: scaleX(1);
   transform-origin: left;
+}
+
+/* LOGO */
+
+.animation-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+  border: 2px solid transparent;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.animation-container.fade {
+  opacity: 0;
+}
+
+.letter {
+  position: absolute;
+  font-size: 8em;
+  width: 100%;
+  text-align: center;
+  transition: transform 1s;
+  color: white;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+}
+
+#W {
+  transform: translateY(-100%) rotate(180deg);
+}
+
+#U {
+  transform: translateY(100%) rotate(0deg); /* Parte rovesciata */
+}
+
+.animation-container.active #W {
+  transform: translateY(0) rotate(360deg);
+}
+
+.animation-container.active #U {
+  transform: translateY(0) rotate(-180deg); /* Termina l'animazione capovolta */
+}
+
+.animation-container.active {
+  animation: drawBorder 1s forwards 2s;
+}
+
+@keyframes drawBorder {
+  0% {
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  25% {
+    border-top-color: black;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  50% {
+    border-top-color: black;
+    border-right-color: black;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  75% {
+    border-top-color: black;
+    border-right-color: black;
+    border-bottom-color: black;
+    border-left-color: transparent;
+  }
+  100% {
+    border-top-color: black;
+    border-right-color: black;
+    border-bottom-color: black;
+    border-left-color: black;
+  }
+}
+
+.dot {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 50%;
+  bottom: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 1s;
+  opacity: 0;
+}
+
+.animation-container.active .dot {
+  transform: translateX(-50%) translateY(-120%); /* Muovi il pallino più in alto sulla punta della W */
+  opacity: 1;
 }

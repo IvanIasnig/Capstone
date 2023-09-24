@@ -15,7 +15,6 @@ import Tables from "../component/Tables";
 import NavBar from "../component/Navbar";
 
 function AllTables() {
-  const [selectedTableId, setSelectedTableId] = useState("");
   const [inputEntryName, setInputEntryName] = useState("");
   const [inputEntryValue, setInputEntryValue] = useState("");
 
@@ -62,33 +61,34 @@ function AllTables() {
       setResponseMessage("Table created successfully");
       setTableName("");
       setEntries([{ entryName: "", entryValue: "" }]);
+      await fetchData();
     } catch (error) {
       setResponseMessage("Error creating the table");
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const userId = getUserIdFromToken();
+  const fetchData = async () => {
+    const userId = getUserIdFromToken();
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      };
-
-      try {
-        const response = await axios.get(
-          `http://localhost:3001/user/${userId}/tables`,
-          config
-        );
-        setTables(response.data);
-        setResponseMessage("Data fetched successfully");
-      } catch (error) {
-        setResponseMessage("Error fetching the data");
-      }
+    const config = {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
     };
 
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/user/${userId}/tables`,
+        config
+      );
+      setTables(response.data);
+      setResponseMessage("Data fetched successfully");
+    } catch (error) {
+      setResponseMessage("Error fetching the data");
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [authToken]);
 
@@ -110,6 +110,7 @@ function AllTables() {
       console.log(response.data);
       setInputEntryName("");
       setInputEntryValue("");
+      await fetchData();
     } catch (error) {
       console.error("Errore nell'aggiungere l'entry:", error);
     }
@@ -127,6 +128,7 @@ function AllTables() {
       );
 
       console.log(response.data);
+      await fetchData();
     } catch (error) {
       console.error("Errore nell'eliminare la tabella: ", error);
     }
@@ -136,7 +138,7 @@ function AllTables() {
     <div
       style={{
         width: "100%",
-        height: "100%",
+        minHeight: "100vh",
         backgroundImage: "url(https://wallpapercave.com/wp/wp7578886.jpg)",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -173,19 +175,19 @@ function AllTables() {
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     color: "rgba(255, 255, 255, 0.7)",
-                    borderColor: "rgba(255, 255, 255, 0.8)",
+                    borderColor: "rgba(255, 255, 255, 0.9)",
                     "& fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.8)",
+                      borderColor: "rgba(255, 255, 255, 0.9)",
                     },
                     "&:hover fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.8)",
+                      borderColor: "orange",
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.8)",
+                      borderColor: "orange",
                     },
                   },
                   "& .MuiInputLabel-root": {
-                    color: "rgba(255, 255, 255, 0.8)",
+                    color: "rgba(255, 255, 255, 0.9)",
                   },
                 }}
               />
@@ -201,20 +203,20 @@ function AllTables() {
                     value={entry.entryName}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        color: "rgba(255, 255, 255, 0.8)",
-                        borderColor: "rgba(255, 255, 255, 0.8)",
+                        color: "rgba(255, 255, 255, 0.9)",
+                        borderColor: "rgba(255, 255, 255, 0.9)",
                         "& fieldset": {
-                          borderColor: "rgba(255, 255, 255, 0.8)",
+                          borderColor: "rgba(255, 255, 255, 0.9)",
                         },
                         "&:hover fieldset": {
-                          borderColor: "rgba(255, 255, 255, 0.8)",
+                          borderColor: "orange",
                         },
                         "&.Mui-focused fieldset": {
-                          borderColor: "rgba(255, 255, 255, 0.8)",
+                          borderColor: "orange",
                         },
                       },
                       "& .MuiInputLabel-root": {
-                        color: "rgba(255, 255, 255, 0.8)",
+                        color: "rgba(255, 255, 255, 0.9)",
                       },
                     }}
                     onChange={(e) =>
@@ -228,23 +230,24 @@ function AllTables() {
                     label="Entry Value"
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        color: "rgba(255, 255, 255, 0.8)",
-                        borderColor: "rgba(255, 255, 255, 0.8)",
+                        color: "rgba(255, 255, 255, 0.9)",
+                        borderColor: "rgba(255, 255, 255, 0.9)",
                         "& fieldset": {
-                          borderColor: "rgba(255, 255, 255, 0.8)",
+                          borderColor: "rgba(255, 255, 255, 0.9)",
                         },
                         "&:hover fieldset": {
-                          borderColor: "rgba(255, 255, 255, 0.8)",
+                          borderColor: "orange",
                         },
                         "&.Mui-focused fieldset": {
-                          borderColor: "rgba(255, 255, 255, 0.8)",
+                          borderColor: "orange",
                         },
                       },
                       "& .MuiInputLabel-root": {
-                        color: "rgba(255, 255, 255, 0.8)",
+                        color: "rgba(255, 255, 255, 0.9)",
                       },
                     }}
                     variant="outlined"
+                    type="number"
                     value={entry.entryValue}
                     onChange={(e) =>
                       handleEntryChange(idx, "entryValue", e.target.value)
@@ -333,14 +336,51 @@ function AllTables() {
                       margin="normal"
                       value={inputEntryName}
                       onChange={(e) => setInputEntryName(e.target.value)}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          color: "rgba(255, 255, 255, 0.9)",
+                          borderColor: "rgba(255, 255, 255, 0.9)",
+                          "& fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "rgb(255, 231, 164)",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "rgb(255, 231, 164)",
+                          },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "rgba(255, 255, 255, 0.9)",
+                        },
+                      }}
                     />
                     <TextField
                       label="Entry Value"
                       variant="outlined"
+                      type="number"
                       fullWidth
                       margin="normal"
                       value={inputEntryValue}
                       onChange={(e) => setInputEntryValue(e.target.value)}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          color: "rgba(255, 255, 255, 0.9)",
+                          borderColor: "rgba(255, 255, 255, 0.9)",
+                          "& fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.9)",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "rgb(255, 231, 164)",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "rgb(255, 231, 164)",
+                          },
+                        },
+                        "& .MuiInputLabel-root": {
+                          color: "rgba(255, 255, 255, 0.9)",
+                        },
+                      }}
                     />
                     <Button
                       style={{ marginTop: "8px" }}

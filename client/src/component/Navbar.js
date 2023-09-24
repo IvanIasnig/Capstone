@@ -23,10 +23,9 @@ const NavBar = () => {
         sx={{
           backgroundColor: "rgba(30, 30, 30)",
           color: "white",
-          position: "fixed",
+          position: "sticky",
           zIndex: 2,
         }}
-        className="mb-3"
       >
         <Toolbar>
           <IconButton
@@ -60,6 +59,12 @@ const NavBar = () => {
               className="text-white fw-bold text-decoration-none me-5 linkStyle"
             >
               Progress
+            </Link>
+            <Link
+              to="/userProfile/photos"
+              className="text-white fw-bold text-decoration-none me-5 linkStyle"
+            >
+              My Photos
             </Link>
           </div>
         </Toolbar>
