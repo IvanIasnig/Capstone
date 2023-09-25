@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import {
-  MDBBtn,
   MDBContainer,
-  MDBRow,
-  MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBCardImage,
-  MDBInput,
+  MDBRow,
+  MDBCol,
 } from "mdb-react-ui-kit";
+import { Button } from "@mui/material";
 import { useAuth } from "../provider/AuthProvider";
+import gymLogin from "../images/gymLogin.jpg";
+import { useNavigate } from "react-router-dom";
 
 function RegistrationApp() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     surname: "",
     name: "",
@@ -51,6 +54,8 @@ function RegistrationApp() {
   const handleSubmit = async () => {
     try {
       await register(formData);
+      await login({ mail: formData.mail, password: formData.password });
+      navigate("/userProfile");
       console.log("Registrazione riuscita!");
     } catch (error) {
       console.error("Errore durante la registrazione:", error);
@@ -58,91 +63,112 @@ function RegistrationApp() {
   };
 
   return (
-    <MDBContainer
-      fluid
-      style={{
-        background:
-          "linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))",
-      }}
-    >
-      <MDBCard
-        className="text-white m-5"
+    <>
+      <MDBContainer
+        fluid
         style={{
-          borderRadius: "25px",
           minHeight: "100vh",
-          background: "black",
+          backgroundImage: `url(${gymLogin})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: "2%",
+          paddingBottom: "2%",
         }}
       >
-        <MDBCardBody>
-          <MDBRow>
-            <MDBCol md="10" lg="6" className="order-2 order-lg-1">
-              <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                Sign up
-              </p>
-
-              {formFields.map((field, index) => (
-                <div
-                  key={index}
-                  className="d-flex flex-column align-items-start mb-4"
-                >
-                  <label>{field.label}</label>
-                  {field.name === "sex" ? (
-                    <MDBInput
-                      id={`form${index}`}
-                      type="text"
-                      className="w-100"
-                      name="sex"
-                      placeholder="M/F"
-                      value={formData["sex"] || ""}
-                      onChange={handleChange}
-                    />
-                  ) : field.name === "activity" ? (
-                    <select
-                      className="form-control"
-                      name="activity"
-                      onChange={handleChange}
-                    >
-                      <option value="" disabled selected>
-                        Select activity:
-                      </option>
-                      <option value="SEDENTARY">One per week</option>
-                      <option value="MILDLY">Two per week</option>
-                      <option value="MODERATLY">Three per week</option>
-                      <option value="VERY">Five per week</option>
-                      <option value="EXTRA">Six per week</option>
-                    </select>
-                  ) : (
-                    <MDBInput
-                      id={`form${index}`}
-                      type={field.type || "text"}
-                      className="w-100"
-                      name={field.name}
-                      value={formData[field.name] || ""}
-                      onChange={handleChange}
-                    />
-                  )}
+        <MDBCard
+          className="text-white"
+          style={{
+            borderRadius: "25px",
+            width: "50vw",
+            background: "rgba(0, 0, 0, 0.8)",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <MDBCardBody>
+            <MDBRow>
+              <MDBCol md="12" lg="12" className="mb-4 px-5">
+                <p className="text-center h1 fw-bold mb-5">Sign up</p>
+                {formFields.map((field, index) => (
+                  <div
+                    key={index}
+                    className="d-flex flex-column align-items-start mb-3"
+                  >
+                    <label className="mb-2">{field.label}</label>
+                    {field.name === "sex" ? (
+                      <select
+                        className="form-control"
+                        name="sex"
+                        onChange={handleChange}
+                        value={formData["sex"]}
+                      >
+                        <option value="" disabled>
+                          Select sex:
+                        </option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                      </select>
+                    ) : field.name === "activity" ? (
+                      <select
+                        className="form-control"
+                        name="activity"
+                        onChange={handleChange}
+                        value={formData["activity"]}
+                      >
+                        <option value="" disabled>
+                          Select activity:
+                        </option>
+                        <option value="SEDENTARY">One per week</option>
+                        <option value="MILDLY">Two per week</option>
+                        <option value="MODERATLY">Three per week</option>
+                        <option value="VERY">Five per week</option>
+                        <option value="EXTRA">Six per week</option>
+                      </select>
+                    ) : (
+                      <input
+                        id={`form${index}`}
+                        type={field.type || "text"}
+                        className="form-control"
+                        name={field.name}
+                        value={formData[field.name] || ""}
+                        onChange={handleChange}
+                      />
+                    )}
+                  </div>
+                ))}
+                <div className="text-center">
+                  <Button
+                    className="px-3 py-2 mt-2 "
+                    size="lg"
+                    onClick={handleSubmit}
+                    sx={{
+                      backgroundColor: "black",
+                      color: "green",
+                      fontSize: "18px",
+                      "&:hover": {
+                        backgroundColor: "orange",
+                      },
+                      transition: "background-color 0.3s ease",
+                    }}
+                  >
+                    Register
+                  </Button>
                 </div>
-              ))}
+              </MDBCol>
 
-              <MDBBtn className="mb-4" size="lg" onClick={handleSubmit}>
-                Register
-              </MDBBtn>
-            </MDBCol>
-
-            <MDBCol
-              md="10"
-              lg="6"
-              className="order-1 order-lg-2 d-flex align-items-center"
-            >
-              <MDBCardImage
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                fluid
-              />
-            </MDBCol>
-          </MDBRow>
-        </MDBCardBody>
-      </MDBCard>
-    </MDBContainer>
+              <MDBCol
+                md="10"
+                lg="6"
+                className="d-none d-lg-flex align-items-center"
+              ></MDBCol>
+            </MDBRow>
+          </MDBCardBody>
+        </MDBCard>
+      </MDBContainer>
+    </>
   );
 }
 

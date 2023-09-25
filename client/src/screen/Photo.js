@@ -97,9 +97,9 @@ function ImageUploader() {
         <Typography
           variant="h5"
           gutterBottom
-          sx={{ textAlign: "center", marginBottom: "1em" }}
+          sx={{ textAlign: "center", marginBottom: "1em", color: "white" }}
         >
-          Image Uploader
+          MyPhotos
         </Typography>
 
         <div
@@ -184,7 +184,7 @@ function ImageUploader() {
                     transition: "0.3s",
                     "&:hover": {
                       transform: "translateY(-5px)",
-                      boxShadow: "0px 5px 20px rgba(0,0,0,0.2)",
+                      boxShadow: "0px 5px 20px orange",
                     },
                   }}
                 >

@@ -65,7 +65,8 @@ function UserProfile() {
               border: "1px solid white",
               boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
               "&:hover": {
-                backgroundColor: "blue",
+                backgroundColor: "orange",
+                borderColor: "black",
               },
             }}
             component={RouterLink}

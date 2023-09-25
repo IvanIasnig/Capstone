@@ -82,7 +82,7 @@ body,
   width: 100%;
   text-align: center;
   transition: transform 1s;
-  color: white;
+  color: orange;
   -webkit-text-stroke-width: 2px;
   -webkit-text-stroke-color: black;
 }
@@ -115,28 +115,28 @@ body,
     border-left-color: transparent;
   }
   25% {
-    border-top-color: black;
+    border-top-color: orangered;
     border-right-color: transparent;
     border-bottom-color: transparent;
     border-left-color: transparent;
   }
   50% {
-    border-top-color: black;
-    border-right-color: black;
+    border-top-color: orangered;
+    border-right-color: orangered;
     border-bottom-color: transparent;
     border-left-color: transparent;
   }
   75% {
-    border-top-color: black;
-    border-right-color: black;
-    border-bottom-color: black;
+    border-top-color: orangered;
+    border-right-color: orangered;
+    border-bottom-color: orangered;
     border-left-color: transparent;
   }
   100% {
-    border-top-color: black;
-    border-right-color: black;
-    border-bottom-color: black;
-    border-left-color: black;
+    border-top-color: orangered;
+    border-right-color: orangered;
+    border-bottom-color: orangered;
+    border-left-color: orangered;
   }
 }
 
@@ -144,7 +144,7 @@ body,
   position: absolute;
   width: 20px;
   height: 20px;
-  background-color: white;
+  background-color: orange;
   border: 2px solid black;
   border-radius: 50%;
   bottom: 60%;
