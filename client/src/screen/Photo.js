@@ -91,7 +91,17 @@ function ImageUploader() {
   };
 
   return (
-    <>
+    <div
+      style={{
+        width: "100%",
+        minHeight: "100vh",
+        backgroundColor: "black",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <NavBar></NavBar>
       <div style={{ padding: "2em", backgroundColor: "black" }}>
         <Typography
@@ -230,18 +240,8 @@ function ImageUploader() {
           />
         </Dialog>
       </div>
-    </>
+    </div>
   );
 }
 
 export default ImageUploader;
-
-/* <CardContent>
-    <Typography variant="h6" gutterBottom>
-        Immagine {index + 1}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-              Questa è l'immagine numero {index + 1} caricata.
-          </Typography>
-    </CardContent> 
-    */

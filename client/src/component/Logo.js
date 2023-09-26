@@ -10,7 +10,7 @@ function Logo() {
     }, 500);
     setTimeout(() => {
       setFade(true);
-    }, 3500); // Inizia la dissolvenza dopo 2.5 secondi
+    }, 3500);
   }, []);
 
   return (
