@@ -30,8 +30,9 @@ public class ImageService {
         user.getImages().add(image);
         return imageRepository.save(image);
     }
+    
+    public void deleteImages(UUID id) {
+    	imageRepository.deleteById(id);
+    }
 
-//    public Image getImage(UUID id) {
-//        return imageRepository.findById(id).orElse(null);
-//    }
 }

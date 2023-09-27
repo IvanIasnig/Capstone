@@ -15,7 +15,7 @@ function ImageUploader() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [open, setOpen] = useState(false);
 
-  console.log(file);
+  // console.log(file);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -60,6 +60,33 @@ function ImageUploader() {
     }
   };
 
+  const deleteImage = async (tableId) => {
+    try {
+      const del = await axios.delete(
+        `http://localhost:3001/user/images/${tableId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      // console.log(del.data);
+    } catch (error) {
+      console.error("Img not found: ", error);
+    }
+  };
+
+  const handleDelete = async (tableId) => {
+    try {
+      console.log(tableId);
+      await deleteImage(tableId);
+      const updatedImages = images.filter((image) => image.tableId !== tableId);
+      setImages(updatedImages);
+    } catch (error) {
+      console.error("Errore durante l'eliminazione dell'immagine:", error);
+    }
+  };
+
   useEffect(() => {
     const userId = getUserIdFromToken();
     fetchAndSetImage(userId);
@@ -90,6 +117,8 @@ function ImageUploader() {
     }
   };
 
+  // console.log(images);
+
   return (
     <div
       style={{
@@ -102,7 +131,7 @@ function ImageUploader() {
         backgroundAttachment: "fixed",
       }}
     >
-      <NavBar></NavBar>
+      <NavBar />
       <div style={{ padding: "2em", backgroundColor: "black" }}>
         <Typography
           variant="h5"
@@ -173,62 +202,71 @@ function ImageUploader() {
 
         <Grid container spacing={1}>
           {images &&
-            images.map((image, index) => (
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                md={3}
-                key={index}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Card
-                  elevation={10}
-                  sx={{
-                    marginTop: "1rem",
-                    maxWidth: "90%",
-                    width: "100%",
-                    borderRadius: "0.5em",
-                    overflow: "hidden",
-                    boxShadow: "0px 0px 15px rgba(0,0,0,0.1)",
-                    transition: "0.3s",
-                    "&:hover": {
-                      transform: "translateY(-5px)",
-                      boxShadow: "0px 5px 20px orange",
-                    },
-                  }}
+            images.map((image, index) => {
+              console.log(image);
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={3}
+                  key={index}
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
-                  <CardMedia
-                    component="img"
+                  <Card
+                    elevation={10}
                     sx={{
+                      marginTop: "1rem",
+                      maxWidth: "90%",
                       width: "100%",
-                      height: "auto",
+                      borderRadius: "0.5em",
+                      overflow: "hidden",
+                      boxShadow: "0px 0px 15px rgba(0,0,0,0.1)",
                       transition: "0.3s",
                       "&:hover": {
-                        transform: "scale(1.03)",
+                        transform: "translateY(-5px)",
+                        boxShadow: "0px 5px 20px orange",
                       },
                     }}
-                    image={`data:image/png;base64,${image.data}`}
-                    alt={`Uploaded ${index}`}
-                    onClick={() => handleImageClick(image)}
-                  />
-                  <CardContent>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
+                  >
+                    <CardMedia
+                      component="img"
                       sx={{
-                        fontWeight: "bold",
-                        marginTop: "1em",
-                        textAlign: "center",
+                        width: "100%",
+                        height: "auto",
+                        transition: "0.3s",
+                        "&:hover": {
+                          transform: "scale(1.03)",
+                        },
                       }}
+                      image={`data:image/png;base64,${image.data}`}
+                      alt={`Uploaded ${index}`}
+                      onClick={() => handleImageClick(image)}
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="body2"
+                        color="textSecondary"
+                        component="p"
+                        sx={{
+                          fontWeight: "bold",
+                          marginTop: "1em",
+                          textAlign: "center",
+                        }}
+                      >
+                        {image.name.replace(/\..+$/, "")}
+                      </Typography>
+                    </CardContent>
+                    <Button
+                      onClick={() => handleDelete(image.id)}
+                      className="btn btn-danger"
                     >
-                      {image.name.replace(/\..+$/, "")}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
+                      Elimina
+                    </Button>
+                  </Card>
+                </Grid>
+              );
+            })}
         </Grid>
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
           <img

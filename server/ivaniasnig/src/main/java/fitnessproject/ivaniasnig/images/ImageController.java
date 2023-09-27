@@ -3,10 +3,9 @@ package fitnessproject.ivaniasnig.images;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,15 +29,10 @@ public class ImageController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @GetMapping("/{id}")
-//    public ResponseEntity<byte[]> getImage(@PathVariable UUID id) {
-//        Image image = imageService.getImage(id);
-//        if (image != null) {
-//            return ResponseEntity.ok()
-//                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + image.getName() + "\"")
-//                    .body(image.getData());
-//        }
-//        return ResponseEntity.status(404).body(null);
-//    }
+    
+    @DeleteMapping("/{id}")
+    public String deleteImage(@PathVariable UUID id) {
+    	imageService.deleteImages(id);
+    	return "Deleted image with id: " + id;
+    }
 }
