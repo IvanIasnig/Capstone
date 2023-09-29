@@ -7,7 +7,6 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Grid, Input, Button, Dialog } from "@mui/material";
 import NavBar from "../component/Navbar";
-import { hover } from "@testing-library/user-event/dist/hover";
 
 function ImageUploader() {
   const [file, setFile] = useState(null);
@@ -53,9 +52,8 @@ function ImageUploader() {
           },
         }
       );
-      // console.log("GET");
+
       setImages(response.data);
-      // console.log(images);
     } catch (error) {
       console.error("Errore durante il recupero dell'immagine:", error);
     }

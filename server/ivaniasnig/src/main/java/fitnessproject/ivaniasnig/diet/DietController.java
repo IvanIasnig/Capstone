@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,5 +34,12 @@ public class DietController {
 	public Diet getUserDiet(@PathVariable("id") UUID userId) {
 	    return dietService.getByUserId(userId);
 	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT) // 204 No Content is a typical response for DELETE
+	public void deleteUserDiet(@PathVariable("id") UUID userId) {
+	    dietService.deleteByUserId(userId);
+	}
+
 
 }

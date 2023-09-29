@@ -2,17 +2,22 @@ package fitnessproject.ivaniasnig.diet;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class DayDiet {
 
     @Id
@@ -36,8 +41,8 @@ public class DayDiet {
 
     private String dayName;
     
-    //@ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
+    @JsonIgnore
     private Diet diet;
 
 	public DayDiet(Meal breakfast, Meal morningSnack, Meal lunch, Meal afternoonSnack, Meal dinner, String dayName) {

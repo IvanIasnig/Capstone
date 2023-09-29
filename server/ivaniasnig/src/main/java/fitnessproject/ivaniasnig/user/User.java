@@ -34,6 +34,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
+
 public class User implements UserDetails {
 	
 	@GeneratedValue
@@ -56,6 +57,7 @@ public class User implements UserDetails {
 	
 	@OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diet_id")
+    @JsonIgnore
     private Diet diet;
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)

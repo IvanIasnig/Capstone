@@ -174,6 +174,7 @@ const WeeklyMealPlan = () => {
       };
       const result = await axios.post(url, data, config);
       setResponse(result.data);
+      window.location.reload();
     } catch (error) {
       console.error("Si è verificato un errore:", error.response);
       setResponse(error.message);
@@ -248,14 +249,8 @@ const WeeklyMealPlan = () => {
             borderStyle: "solid",
           }}
         >
-          Invia Piano Alimentare
+          Save Meal Plan
         </button>
-
-        {/* {response && (
-          <div className="mt-4 p-2 border rounded">
-            Risposta del server: {JSON.stringify(response)}
-          </div>
-        )} */}
       </div>
     </div>
   );
