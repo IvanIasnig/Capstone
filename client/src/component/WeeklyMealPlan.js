@@ -1,21 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import Papa from "papaparse";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-  Box,
-} from "@mui/material";
+import ReactSelect from "react-select";
 
 const mealArr = function (meal) {
   if (meal === "breakfast") return "Breakfast";
@@ -27,56 +13,62 @@ const mealArr = function (meal) {
 
 const WeeklyMealPlan = () => {
   const [response, setResponse] = useState(null);
+
   const [foodData, setFoodData] = useState([]);
+
+  var grams = (grams) => {
+    return Math.floor((grams * totalKcal()) / 2000);
+  };
+
   const [dayDiets, setDayDiets] = useState({
     Monday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: 100 },
-      morningSnack: { food: "Smoothie", grams: 300 },
-      lunch: { food: "Chicken Breast", grams: 400 },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: 120 },
-      dinner: { food: "Salmon", grams: 400 },
+      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      morningSnack: { food: "Smoothie", grams: grams(300) },
+      lunch: { food: "Chicken Breast", grams: grams(400) },
+      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
+      dinner: { food: "Salmon", grams: grams(400) },
     },
     Tuesday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: 100 },
-      morningSnack: { food: "Smoothie", grams: 300 },
-      lunch: { food: "Chicken Breast", grams: 400 },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: 120 },
-      dinner: { food: "Salmon", grams: 400 },
+      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      morningSnack: { food: "Smoothie", grams: grams(300) },
+      lunch: { food: "Chicken Breast", grams: grams(400) },
+      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
+      dinner: { food: "Salmon", grams: grams(400) },
     },
     Wednesday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: 100 },
-      morningSnack: { food: "Smoothie", grams: 300 },
-      lunch: { food: "Chicken Breast", grams: 400 },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: 120 },
-      dinner: { food: "Salmon", grams: 400 },
+      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      morningSnack: { food: "Smoothie", grams: grams(300) },
+      lunch: { food: "Chicken Breast", grams: grams(400) },
+      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
+      dinner: { food: "Salmon", grams: grams(400) },
     },
     Thursday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: 100 },
-      morningSnack: { food: "Smoothie", grams: 300 },
-      lunch: { food: "Chicken Breast", grams: 400 },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: 120 },
-      dinner: { food: "Salmon", grams: 400 },
+      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      morningSnack: { food: "Smoothie", grams: grams(300) },
+      lunch: { food: "Chicken Breast", grams: grams(400) },
+      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
+      dinner: { food: "Salmon", grams: grams(400) },
     },
     Friday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: 100 },
-      morningSnack: { food: "Smoothie", grams: 300 },
-      lunch: { food: "Chicken Breast", grams: 400 },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: 120 },
-      dinner: { food: "Salmon", grams: 400 },
+      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      morningSnack: { food: "Smoothie", grams: grams(300) },
+      lunch: { food: "Chicken Breast", grams: grams(400) },
+      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
+      dinner: { food: "Salmon", grams: grams(400) },
     },
     Saturday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: 100 },
-      morningSnack: { food: "Smoothie", grams: 300 },
-      lunch: { food: "Chicken Breast", grams: 400 },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: 120 },
-      dinner: { food: "Salmon", grams: 400 },
+      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      morningSnack: { food: "Smoothie", grams: grams(300) },
+      lunch: { food: "Chicken Breast", grams: grams(400) },
+      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
+      dinner: { food: "Salmon", grams: grams(400) },
     },
     Sunday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: 100 },
-      morningSnack: { food: "Smoothie", grams: 300 },
-      lunch: { food: "Chicken Breast", grams: 400 },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: 120 },
-      dinner: { food: "Salmon", grams: 400 },
+      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      morningSnack: { food: "Smoothie", grams: grams(300) },
+      lunch: { food: "Chicken Breast", grams: grams(400) },
+      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
+      dinner: { food: "Salmon", grams: grams(400) },
     },
   });
 
@@ -86,25 +78,35 @@ const WeeklyMealPlan = () => {
     loadFoods();
   }, []);
 
-  const loadFoods = () => {
-    Papa.parse("/calories.csv", {
-      download: true,
-      header: true,
-      complete: (result) => {
-        setFoodData(result.data); // per calcolo kcal
-        const foods = result.data.map((row) => row.FoodItem);
-        setAvailableFoods(foods);
-      },
-    });
+  const authToken = localStorage.getItem("authToken");
+
+  const loadFoods = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/api/foods", {
+        headers: { Authorization: `Bearer ${authToken}` },
+      });
+
+      const foods = response.data;
+      console.log(foods);
+      setFoodData(foods);
+      setAvailableFoods(foods.map((food) => food.foodItem));
+    } catch (error) {
+      console.error("Error fetching food data:", error);
+    }
   };
 
   const calculateCaloriesForDay = (meals) => {
     return Object.values(meals).reduce((total, { food, grams }) => {
-      const foodInfo = foodData.find((f) => f.FoodItem === food);
+      const foodInfo = foodData.find((f) => f.foodItem === food);
       if (foodInfo) {
-        const calsPer100g = parseInt(foodInfo.Cals_per100grams);
+        const calsPer100gRaw = foodInfo.calsPer100grams.replace(
+          /\s*\w{3}$/,
+          ""
+        );
+        const calsPer100g = parseInt(calsPer100gRaw, 10);
+
         const calsForGrams = (calsPer100g / 100) * grams;
-        return total + calsForGrams;
+        return Math.floor(total + calsForGrams);
       }
       return total;
     }, 0);
@@ -126,11 +128,9 @@ const WeeklyMealPlan = () => {
     if (jRof.activity === "MODERATLY") bmr = bmr * 1.375;
     if (jRof.activity === "VERY") bmr = bmr * 1.725;
     if (jRof.activity === "EXTRA") bmr = bmr * 1.9;
+
     return Math.floor(bmr);
   }
-
-  // Recupera il token dal localStorage
-  const authToken = localStorage.getItem("authToken");
 
   function getUserIdFromToken() {
     const token = localStorage.getItem("authToken");
@@ -180,129 +180,84 @@ const WeeklyMealPlan = () => {
     }
   };
 
-  const backgroundImages = [
-    "https://c1.wallpaperflare.com/preview/112/406/444/food-diet-keto-ketodieta.jpg",
-    "https://e0.pxfuel.com/wallpapers/461/215/desktop-wallpaper-diet-diet-motivation-healthy-food.jpg",
-    "https://parade.com/.image/t_share/MTkwNTc1OTc4ODE4Nzc0MTQx/mediterranean-diet-ftr.jpg",
-    "https://c1.wallpaperflare.com/preview/112/406/444/food-diet-keto-ketodieta.jpg",
-    "https://e0.pxfuel.com/wallpapers/461/215/desktop-wallpaper-diet-diet-motivation-healthy-food.jpg",
-    "https://c1.wallpaperflare.com/preview/112/406/444/food-diet-keto-ketodieta.jpg",
-    "https://parade.com/.image/t_share/MTkwNTc1OTc4ODE4Nzc0MTQx/mediterranean-diet-ftr.jpg",
-  ];
-
   return (
-    <Container
-      sx={{
-        mt: 4,
-        backgroundImage:
-          "https://img.wallpapic.it/i5921-731-915/medium/frutta-e-verdura-frutti-di-bosco-rossi-sfondo.jpg",
-      }}
-    >
-      <Box
-        sx={{
-          padding: "1rem",
-          mt: 4,
-          mb: 4,
-          borderRadius: "30px !important",
-          backgroundColor: "rgba(0,0,0,0.5)",
-          border: "1px solid #fff",
-        }}
-      >
-        <Typography variant="h6" className="text-white">
-          Total Kcal per day : {totalKcal()}
-        </Typography>
-      </Box>
-      {Object.entries(dayDiets).map(([day, meals], dayIndex) => (
-        <Card
-          key={day}
-          sx={{ mb: 4, backgroundImage: `url(${backgroundImages[dayIndex]})` }}
-          className="text-white"
-        >
-          <CardHeader
-            title={`${day} - Total Calories: ${calculateCaloriesForDay(
-              meals
-            )} kcal`}
-          />
-          <CardContent>
-            <Grid container spacing={2}>
-              {Object.entries(meals).map(([meal, details]) => (
-                <Grid
-                  container
-                  key={meal}
-                  spacing={2}
-                  alignItems="center"
-                  className="text-white textShd"
-                >
-                  <Grid item xs={2}>
-                    <InputLabel className="text-white fs-5 ms-3">
-                      {mealArr(meal)}
-                    </InputLabel>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Select
-                      fullWidth
-                      className="text-white mb-2"
-                      value={details.food}
-                      onChange={(e) =>
-                        handleInputChange(day, meal, "food", e.target.value)
-                      }
-                      style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
-                    >
-                      <MenuItem value="" className="text-white">
-                        <em>Seleziona un cibo...</em>
-                      </MenuItem>
-                      {availableFoods.map((food, index) => (
-                        <MenuItem key={`${food}-${index}`} value={food}>
-                          {food}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      fullWidth
-                      type="number"
-                      placeholder="Grammi"
-                      value={details.grams}
-                      onChange={(e) =>
-                        handleInputChange(day, meal, "grams", e.target.value)
-                      }
-                      InputProps={{ className: "text-white" }}
-                      style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
-                    />
-                  </Grid>
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
+    <div className="container mt-4">
+      <div className="p-3 mt-4 mb-4 rounded bg-dark text-white">
+        <h6 className="text-center">
+          Total Kcal suggested per day: {totalKcal()}
+        </h6>
+      </div>
+
+      {Object.entries(dayDiets).map(([day, meals]) => (
+        <div key={day} className="card mb-4 bg-dark text-white">
+          <div className="card-header text-center">{`${day} - Total Calories: ${calculateCaloriesForDay(
+            meals
+          )} kcal`}</div>
+          <div className="card-body">
+            {Object.entries(meals).map(([meal, details]) => (
+              <div key={meal} className="row mb-2 align-items-center">
+                <div className="col-12 col-md-2 text-center">
+                  {mealArr(meal)}
+                </div>
+                <div className="col-12 col-md-5 mt-2 mt-md-0">
+                  <ReactSelect
+                    className="text-black"
+                    classNamePrefix="select"
+                    isClearable={true}
+                    isSearchable={true}
+                    name="food"
+                    options={availableFoods.map((food) => ({
+                      label: food,
+                      value: food,
+                    }))}
+                    value={{ label: details.food, value: details.food }}
+                    onChange={(option) =>
+                      handleInputChange(
+                        day,
+                        meal,
+                        "food",
+                        option ? option.value : ""
+                      )
+                    }
+                  />
+                </div>
+                <div className="col-12 col-md-5 mt-2 mt-md-0">
+                  <input
+                    type="number"
+                    className="form-control bg-secondary text-white"
+                    placeholder="Grammi"
+                    value={details.grams}
+                    onChange={(e) =>
+                      handleInputChange(day, meal, "grams", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       ))}
+
       <div className="text-center my-4">
-        <Button
-          variant="contained"
+        <button
           onClick={postData}
-          className="btn-lg mb-4"
+          className="btn btn-lg btn-dark mb-4"
           style={{
-            background: "black",
-            borderColor: "white",
-            boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
-            fontSize: "1.2rem",
+            borderColor: "orange",
+            borderWidth: "2px",
+            borderStyle: "solid",
           }}
         >
           Invia Piano Alimentare
-        </Button>
-      </div>
+        </button>
 
-      {response && (
-        <Typography
-          variant="body1"
-          sx={{ mt: 4, p: 2, border: "1px solid", borderColor: "divider" }}
-          className="text-white"
-        >
-          Risposta del server: {JSON.stringify(response)}
-        </Typography>
-      )}
-    </Container>
+        {/* {response && (
+          <div className="mt-4 p-2 border rounded">
+            Risposta del server: {JSON.stringify(response)}
+          </div>
+        )} */}
+      </div>
+    </div>
   );
 };
 

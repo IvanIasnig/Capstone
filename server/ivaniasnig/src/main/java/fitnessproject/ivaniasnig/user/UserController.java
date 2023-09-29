@@ -29,22 +29,22 @@ public class UserController {
 	private UserService userService;
 	
 	//GET
-	@GetMapping
-	public Page <User> getUtenti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
-		return userService.find(page, size, sortBy);
-	}
+//	@GetMapping
+//	public Page <User> getUtenti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
+//		return userService.find(page, size, sortBy);
+//	}
 	
 	
-	// GET (by Id)
-	@GetMapping("/{id}")
-	public User findById(@PathVariable UUID id) { 
-		return userService.findById(id);
-	}
+//	// GET (by Id)
+//	@GetMapping("/{id}")
+//	public User findById(@PathVariable UUID id) { 
+//		return userService.findById(id);
+//	}
 	
-	@GetMapping("/byEmail/{email}")
-	public User getUserByEmail(@PathVariable String email) {
-	    return userService.findByEmail(email);
-	}
+//	@GetMapping("/byEmail/{email}")
+//	public User getUserByEmail(@PathVariable String email) {
+//	    return userService.findByEmail(email);
+//	}
 	
 	// GET Tables
 	@GetMapping("/{id}/tables")
@@ -65,9 +65,9 @@ public class UserController {
 	}
 	
 	// DELETE
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void findAndDelete(@PathVariable UUID id) {
-		userService.findByIdAndDelete(id);
-	}
+//	@DeleteMapping("/{id}")
+//	@ResponseStatus(HttpStatus.NO_CONTENT)
+//	public void findAndDelete(@PathVariable UUID id) {
+//		userService.findByIdAndDelete(id);
+//	}
 }

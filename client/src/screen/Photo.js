@@ -7,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Grid, Input, Button, Dialog } from "@mui/material";
 import NavBar from "../component/Navbar";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 function ImageUploader() {
   const [file, setFile] = useState(null);
@@ -259,7 +260,14 @@ function ImageUploader() {
                     </CardContent>
                     <Button
                       onClick={() => handleDelete(image.id)}
-                      className="btn btn-danger"
+                      sx={{
+                        // marginBottom: "500 px !important",
+                        // marginLeft: "500 px !important",
+                        "&:hover": {
+                          backgroundColor: "red",
+                          color: "white",
+                        },
+                      }}
                     >
                       Elimina
                     </Button>
