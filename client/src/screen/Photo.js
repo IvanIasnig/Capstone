@@ -5,17 +5,20 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Grid, Input, Button, Dialog } from "@mui/material";
 import NavBar from "../component/Navbar";
 
 function ImageUploader() {
+  const [orderByDate, setOrderByDate] = useState(false);
+
   const [file, setFile] = useState(null);
   const [images, setImages] = useState([]);
   const authToken = localStorage.getItem("authToken");
   const [selectedImage, setSelectedImage] = useState(null);
   const [open, setOpen] = useState(false);
-
-  // console.log(file);
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // imposta la data corrente come valore iniziale
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -94,6 +97,8 @@ function ImageUploader() {
   const onUpload = async () => {
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("description", description);
+    formData.append("date", date);
 
     const userId = getUserIdFromToken();
     if (!userId) {
@@ -108,13 +113,21 @@ function ImageUploader() {
           Authorization: `Bearer ${authToken}`,
         },
       });
-      //console.log("POST");
       fetchAndSetImage(userId);
-      //console.log(images);
     } catch (error) {
       console.error("Errore durante l'upload dell'immagine:", error);
     }
   };
+
+  function compareDates(a, b) {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+
+    return dateA - dateB;
+  }
+  function sortImagesByDate(images) {
+    return [...images].sort((a, b) => new Date(a.date) - new Date(b.date));
+  }
 
   // console.log(images);
 
@@ -141,12 +154,15 @@ function ImageUploader() {
         </Typography>
 
         <div
-          sx={{
+          style={{
             display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
             justifyContent: "center",
-            marginBottom: "1em",
+            gap: "1em",
+            padding: "0.5em",
+            marginBottom: "2em",
           }}
-          className="mb-5"
         >
           <Input
             type="file"
@@ -169,6 +185,21 @@ function ImageUploader() {
               Seleziona
             </Button>
           </label>
+
+          <Input
+            type="text"
+            placeholder="Descrizione"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={{ backgroundColor: "white" }}
+          />
+
+          <Input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            style={{ backgroundColor: "white" }}
+          />
 
           <Button
             onClick={onUpload}
@@ -199,80 +230,118 @@ function ImageUploader() {
           )}
         </div>
 
+        <button onClick={() => setOrderByDate(!orderByDate)}>
+          Ordina {orderByDate ? "Normalmente" : "Per Data"}
+        </button>
+
         <Grid container spacing={1}>
           {images &&
-            images.map((image, index) => {
-              console.log(image);
-              return (
-                <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={3}
-                  key={index}
-                  sx={{ display: "flex", justifyContent: "center" }}
-                >
-                  <Card
-                    elevation={10}
-                    sx={{
-                      marginTop: "1rem",
-                      maxWidth: "90%",
-                      width: "100%",
-                      borderRadius: "0.5em",
-                      overflow: "hidden",
-                      boxShadow: "0px 0px 15px rgba(0,0,0,0.1)",
-                      transition: "0.3s",
-                      "&:hover": {
-                        transform: "translateY(-5px)",
-                        boxShadow: "0px 5px 20px orange",
-                      },
-                    }}
+            (orderByDate ? sortImagesByDate(images) : [...images]).map(
+              (image, index) => {
+                console.log(image);
+                return (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={3}
+                    key={index}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
-                    <CardMedia
-                      component="img"
+                    <Card
+                      elevation={10}
                       sx={{
+                        marginTop: "1rem",
+                        maxWidth: "90%",
                         width: "100%",
-                        height: "auto",
+                        borderRadius: "0.5em",
+                        overflow: "hidden",
+                        boxShadow: "0px 0px 15px rgba(0,0,0,0.1)",
                         transition: "0.3s",
                         "&:hover": {
-                          transform: "scale(1.03)",
-                        },
-                      }}
-                      image={`data:image/png;base64,${image.data}`}
-                      alt={`Uploaded ${index}`}
-                      onClick={() => handleImageClick(image)}
-                    />
-                    <CardContent>
-                      <Typography
-                        variant="body2"
-                        color="textSecondary"
-                        component="p"
-                        sx={{
-                          fontWeight: "bold",
-                          marginTop: "1em",
-                          textAlign: "center",
-                        }}
-                      >
-                        {image.name.replace(/\..+$/, "")}
-                      </Typography>
-                    </CardContent>
-                    <Button
-                      onClick={() => handleDelete(image.id)}
-                      sx={{
-                        // marginBottom: "500 px !important",
-                        // marginLeft: "500 px !important",
-                        "&:hover": {
-                          backgroundColor: "red",
-                          color: "white",
+                          transform: "translateY(-5px)",
+                          boxShadow: "0px 5px 20px orange",
                         },
                       }}
                     >
-                      Elimina
-                    </Button>
-                  </Card>
-                </Grid>
-              );
-            })}
+                      <CardMedia
+                        component="img"
+                        sx={{
+                          width: "100%",
+                          height: "auto",
+                          transition: "0.3s",
+                          "&:hover": {
+                            transform: "scale(1.03)",
+                          },
+                        }}
+                        image={`data:image/png;base64,${image.data}`}
+                        alt={`Uploaded ${index}`}
+                        onClick={() => handleImageClick(image)}
+                      />
+                      <CardContent>
+                        <Typography
+                          variant="h6"
+                          color="textPrimary"
+                          component="p"
+                          sx={{
+                            fontWeight: "bold",
+                            marginBottom: "1em",
+                            textAlign: "center",
+                          }}
+                        >
+                          {image.name.replace(/\..+$/, "")}
+                        </Typography>
+
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                          sx={{
+                            textAlign: "center",
+                            fontStyle: "italic",
+                            fontWeight: "medium",
+                          }}
+                        >
+                          "{image.description}"
+                        </Typography>
+
+                        <div
+                          style={{
+                            marginTop: "1em",
+                          }}
+                        >
+                          <CalendarTodayIcon
+                            color="action"
+                            sx={{ marginRight: "0.5em" }}
+                          />
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                          >
+                            {image.date}
+                          </Typography>
+                        </div>
+                      </CardContent>
+
+                      <Button
+                        onClick={() => handleDelete(image.id)}
+                        sx={{
+                          // marginBottom: "500 px !important",
+                          // marginLeft: "500 px !important",
+                          "&:hover": {
+                            backgroundColor: "red",
+                            color: "white",
+                          },
+                        }}
+                      >
+                        Elimina
+                      </Button>
+                    </Card>
+                  </Grid>
+                );
+              }
+            )}
         </Grid>
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
           <img

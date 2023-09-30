@@ -1,5 +1,6 @@
 package fitnessproject.ivaniasnig.images;
 
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -28,6 +29,10 @@ public class Image {
     private UUID id;
     
     private String name;
+    
+    private String description;
+    
+    private LocalDate date;
 
     private byte[] data;
     
@@ -36,10 +41,16 @@ public class Image {
     @JsonIgnore
     private User user;
 
-    public Image(String name, byte[] data) {
-        this.name = name;
-        this.data = data;
-    }
+
+	public Image(String name, String description, LocalDate date, byte[] data) {
+
+		this.name = name;
+		this.description = description;
+		this.date = date;
+		this.data = data;
+	}
+
+
 }
 
 

@@ -1,6 +1,7 @@
 package fitnessproject.ivaniasnig.images;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,17 @@ public class ImageService {
 	@Autowired
 	private UserRepository userRepo;
     
-    public Image saveImage(MultipartFile file, UUID id) throws IOException {
-    	
-    	User user = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
-    	
+    public Image saveImage(MultipartFile file, UUID id, String description, LocalDate date) throws IOException {
+        
+        User user = userRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        
         String name = file.getOriginalFilename();
-        Image image = new Image(name, file.getBytes());
+        
+        Image image = new Image(name, description, date, file.getBytes());
         image.setUser(user);
         
         user.getImages().add(image);
+        
         return imageRepository.save(image);
     }
     

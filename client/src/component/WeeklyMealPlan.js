@@ -13,6 +13,8 @@ const mealArr = function (meal) {
 
 const WeeklyMealPlan = () => {
   const [response, setResponse] = useState(null);
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // imposta la data corrente come valore iniziale
 
   const [foodData, setFoodData] = useState([]);
 

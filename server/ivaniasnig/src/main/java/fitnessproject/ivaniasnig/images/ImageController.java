@@ -1,8 +1,10 @@
 package fitnessproject.ivaniasnig.images;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,14 +23,23 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<Image> uploadImage(@RequestParam("file") MultipartFile file,  @RequestParam UUID id) {
+    public ResponseEntity<Image> uploadImage(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam UUID id,
+            @RequestParam String description,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+
         try {
-            Image image = imageService.saveImage(file , id);
+            if (date == null) {
+                date = LocalDate.now(); 
+            }
+            Image image = imageService.saveImage(file, id, description, date);
             return new ResponseEntity<>(image, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     
     @DeleteMapping("/{id}")
     public String deleteImage(@PathVariable UUID id) {

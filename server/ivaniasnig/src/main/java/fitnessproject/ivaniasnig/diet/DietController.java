@@ -41,5 +41,4 @@ public class DietController {
 	    dietService.deleteByUserId(userId);
 	}
 
-
 }

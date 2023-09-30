@@ -29,16 +29,16 @@ function RegistrationApp() {
   });
 
   const formFields = [
-    { label: "Cognome", name: "surname", type: "text" },
-    { label: "Nome", name: "name", type: "text" },
-    { label: "Età", name: "age", type: "number" },
-    { label: "Sesso", name: "sex", type: "text" },
+    { label: "Surname", name: "surname", type: "text" },
+    { label: "Name", name: "name", type: "text" },
+    { label: "Age", name: "age", type: "number" },
+    { label: "Sex", name: "sex", type: "text" },
     { label: "Password", name: "password", type: "password" },
     { label: "Email", name: "mail", type: "email" },
-    { label: "Nome utente", name: "username", type: "text" },
-    { label: "Altezza", name: "height", type: "number" },
-    { label: "Peso", name: "weight", type: "number" },
-    { label: "Attività", name: "activity", type: "text" },
+    { label: "Username", name: "username", type: "text" },
+    { label: "Height", name: "height", type: "number" },
+    { label: "Weight", name: "weight", type: "number" },
+    { label: "Activity", name: "activity", type: "text" },
   ];
 
   const handleChange = (e) => {

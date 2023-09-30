@@ -96,10 +96,7 @@ function AllTables() {
           },
         }
       );
-      // console.log(
-      //   "entry name -> " + entryName,
-      //   " entry value -> " + entryValue
-      // );
+
       console.log(authToken);
       console.log(response.data);
       await fetchData();
