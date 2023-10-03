@@ -8,17 +8,18 @@ import Typography from "@mui/material/Typography";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { Grid, Input, Button, Dialog } from "@mui/material";
 import NavBar from "../component/Navbar";
+import useToken from "../customHooks/useToken";
+import UseDecodeToken from "../customHooks/UseDecodeToken";
 
 function ImageUploader() {
   const [orderByDate, setOrderByDate] = useState(false);
-
   const [file, setFile] = useState(null);
   const [images, setImages] = useState([]);
-  const authToken = localStorage.getItem("authToken");
+  const token = useToken();
   const [selectedImage, setSelectedImage] = useState(null);
   const [open, setOpen] = useState(false);
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // imposta la data corrente come valore iniziale
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -28,18 +29,6 @@ function ImageUploader() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  function getUserIdFromToken() {
-    const token = localStorage.getItem("authToken");
-    if (!token) return null;
-
-    try {
-      const decoded = jwtDecode(token);
-      return decoded.sub;
-    } catch (err) {
-      return null;
-    }
-  }
 
   const onFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -51,7 +40,7 @@ function ImageUploader() {
         `http://localhost:3001/user/${userId}/images`,
         {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -63,16 +52,17 @@ function ImageUploader() {
   };
 
   const deleteImage = async (tableId) => {
+    const userId = UseDecodeToken(token);
     try {
       const del = await axios.delete(
         `http://localhost:3001/user/images/${tableId}`,
         {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      // console.log(del.data);
+      fetchAndSetImage(userId);
     } catch (error) {
       console.error("Img not found: ", error);
     }
@@ -90,7 +80,7 @@ function ImageUploader() {
   };
 
   useEffect(() => {
-    const userId = getUserIdFromToken();
+    const userId = UseDecodeToken(token);
     fetchAndSetImage(userId);
   }, []);
 
@@ -100,7 +90,7 @@ function ImageUploader() {
     formData.append("description", description);
     formData.append("date", date);
 
-    const userId = getUserIdFromToken();
+    const userId = UseDecodeToken(token);
     if (!userId) {
       console.error("Impossibile recuperare l'ID dell'utente dal token.");
       return;
@@ -110,7 +100,7 @@ function ImageUploader() {
     try {
       await axios.post("http://localhost:3001/user/images", formData, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       fetchAndSetImage(userId);
@@ -119,17 +109,9 @@ function ImageUploader() {
     }
   };
 
-  function compareDates(a, b) {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-
-    return dateA - dateB;
-  }
   function sortImagesByDate(images) {
     return [...images].sort((a, b) => new Date(a.date) - new Date(b.date));
   }
-
-  // console.log(images);
 
   return (
     <div
@@ -182,7 +164,7 @@ function ImageUploader() {
                 },
               }}
             >
-              Seleziona
+              Select
             </Button>
           </label>
 
@@ -210,7 +192,7 @@ function ImageUploader() {
               borderColor: "primary.main",
             }}
           >
-            Carica
+            Load
           </Button>
           {file && (
             <Typography
@@ -230,8 +212,11 @@ function ImageUploader() {
           )}
         </div>
 
-        <button onClick={() => setOrderByDate(!orderByDate)}>
-          Ordina {orderByDate ? "Normalmente" : "Per Data"}
+        <button
+          onClick={() => setOrderByDate(!orderByDate)}
+          className="btn btn-success ms-4 mb-3"
+        >
+          {orderByDate ? "Sort normally" : "Sort by date"}
         </button>
 
         <Grid container spacing={1}>
@@ -335,7 +320,7 @@ function ImageUploader() {
                           },
                         }}
                       >
-                        Elimina
+                        Delete
                       </Button>
                     </Card>
                   </Grid>

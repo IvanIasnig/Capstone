@@ -43,7 +43,7 @@ function UserProfile() {
         <Box
           key={section.label}
           sx={{
-            height: "500px", // Questa è l'altezza fissa per ciascuna sezione
+            height: "500px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

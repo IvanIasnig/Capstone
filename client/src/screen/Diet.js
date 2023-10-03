@@ -10,29 +10,18 @@ import Wed from "../images/foodwed.jpg";
 import Fri from "../images/foodfri.jpg";
 import Sat from "../images/foodsat.jpg";
 import Sun from "../images/foodsun.jpg";
-import jwtDecode from "jwt-decode";
 import axios from "axios";
+import useToken from "../customHooks/useToken";
+import UseDecodeToken from "../customHooks/UseDecodeToken";
 
 function Diet() {
   const [weekDiet, setWeekDiet] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const authToken = localStorage.getItem("authToken");
-
-  function getUserIdFromToken() {
-    const token = localStorage.getItem("authToken");
-    if (!token) return null;
-
-    try {
-      const decoded = jwtDecode(token);
-      return decoded.sub;
-    } catch (err) {
-      return null;
-    }
-  }
+  const token = useToken();
 
   useEffect(() => {
-    fetchAndSetDiet(getUserIdFromToken(), authToken);
+    fetchAndSetDiet(UseDecodeToken(token), token);
   }, []);
 
   const fetchAndSetDiet = async (userId, token) => {
@@ -151,7 +140,7 @@ function Diet() {
           ))}
           <button
             onClick={() => {
-              deleteDiet(getUserIdFromToken(), authToken);
+              deleteDiet(UseDecodeToken(token), token);
             }}
             className="btn btn-lg btn-danger mb-4"
             style={{

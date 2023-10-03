@@ -7,9 +7,9 @@ import Diet from "./screen/Diet";
 import Workout from "./screen/Workout";
 import AllTables from "./screen/AllTables";
 import Photo from "./screen/Photo";
-import Logo from "./component/Logo";
 import ProtectedRoute from "./component/ProtectedRoute";
 import ErrorPage from "./screen/ErrorPage";
+import Exercises from "./screen/Exercises";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
             <Route path="workout" element={<Workout />} />
             <Route path="tables" element={<AllTables />} />
             <Route path="photos" element={<Photo />} />
-            <Route path="logo" element={<Logo />} />
+            <Route path="help" element={<Exercises />} />
           </Route>
           <Route path="/*" element={<ErrorPage />} />
         </Routes>

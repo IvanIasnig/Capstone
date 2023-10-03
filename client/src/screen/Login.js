@@ -122,7 +122,7 @@ function Login() {
 
                 <div>
                   <p className="mb-0">
-                    Don't have an account?{" "}
+                    Don't have an account?
                     <Link to="/registration" className="text-white-50 fw-bold">
                       Sign Up
                     </Link>
