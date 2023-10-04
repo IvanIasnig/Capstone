@@ -30,25 +30,25 @@ const WeeklyMealPlan = () => {
       dinner: { food: "Salmon", grams: grams(400) },
     },
     Tuesday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
-      morningSnack: { food: "Smoothie", grams: grams(300) },
-      lunch: { food: "Chicken Breast", grams: grams(400) },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
-      dinner: { food: "Salmon", grams: grams(400) },
+      breakfast: { food: "Croissant", grams: grams(90) },
+      morningSnack: { food: "Smoothie", grams: grams(200) },
+      lunch: { food: "Spinach Tortellini", grams: grams(180) },
+      afternoonSnack: { food: "Cherry Yogurt", grams: grams(300) },
+      dinner: { food: "Low Carb Pasta", grams: grams(250) },
     },
     Wednesday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      breakfast: { food: "Egg", grams: grams(100) },
       morningSnack: { food: "Smoothie", grams: grams(300) },
       lunch: { food: "Chicken Breast", grams: grams(400) },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
-      dinner: { food: "Salmon", grams: grams(400) },
+      afternoonSnack: { food: "Smoothie", grams: grams(200) },
+      dinner: { food: "Salami Pizza", grams: grams(400) },
     },
     Thursday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
-      morningSnack: { food: "Smoothie", grams: grams(300) },
-      lunch: { food: "Chicken Breast", grams: grams(400) },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
-      dinner: { food: "Salmon", grams: grams(400) },
+      breakfast: { food: "Croissant", grams: grams(90) },
+      morningSnack: { food: "Smoothie", grams: grams(200) },
+      lunch: { food: "Spinach Tortellini", grams: grams(180) },
+      afternoonSnack: { food: "Cherry Yogurt", grams: grams(300) },
+      dinner: { food: "Low Carb Pasta", grams: grams(250) },
     },
     Friday: {
       breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
@@ -58,11 +58,11 @@ const WeeklyMealPlan = () => {
       dinner: { food: "Salmon", grams: grams(400) },
     },
     Saturday: {
-      breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
+      breakfast: { food: "Egg", grams: grams(100) },
       morningSnack: { food: "Smoothie", grams: grams(300) },
       lunch: { food: "Chicken Breast", grams: grams(400) },
-      afternoonSnack: { food: "Multi-Grain Bread", grams: grams(120) },
-      dinner: { food: "Salmon", grams: grams(400) },
+      afternoonSnack: { food: "Smoothie", grams: grams(200) },
+      dinner: { food: "Salami Pizza", grams: grams(400) },
     },
     Sunday: {
       breakfast: { food: "Yoplait Mixed Berry", grams: grams(100) },
@@ -124,11 +124,11 @@ const WeeklyMealPlan = () => {
       bmr =
         655.5 + 9.563 * jRof.weight + 1.8496 * jRof.height - 4.6756 * jRof.age;
     }
-    if (jRof.activity === "SEDENTARY") bmr = bmr * 1.2;
-    if (jRof.activity === "MILDLY") bmr = bmr * 1.375;
-    if (jRof.activity === "MODERATLY") bmr = bmr * 1.375;
-    if (jRof.activity === "VERY") bmr = bmr * 1.725;
-    if (jRof.activity === "EXTRA") bmr = bmr * 1.9;
+    if (jRof.activity === "SEDENTARY") bmr = bmr * 1;
+    if (jRof.activity === "MILDLY") bmr = bmr * 1.1;
+    if (jRof.activity === "MODERATLY") bmr = bmr * 1.2;
+    if (jRof.activity === "VERY") bmr = bmr * 1.5;
+    if (jRof.activity === "EXTRA") bmr = bmr * 1.7;
 
     return Math.floor(bmr);
   }

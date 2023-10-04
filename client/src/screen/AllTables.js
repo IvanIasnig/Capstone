@@ -7,12 +7,14 @@ import TableDisplay from "../component/AllTables/TableDisplay";
 import TableForm from "../component/AllTables/TableForm";
 import useToken from "../customHooks/useToken";
 import UseDecodeToken from "../customHooks/UseDecodeToken";
+import Loading from "../component/Loading";
 
 function AllTables() {
   const [tables, setTables] = useState([]);
   const [responseMessage, setResponseMessage] = useState("");
   const [tableName, setTableName] = useState("");
   const [entries, setEntries] = useState([{ entryName: "", entryValue: "" }]);
+  const [isLoading, setIsLoading] = useState(true);
   const token = useToken();
 
   const handleEntryChange = (index, key, value) => {
@@ -62,6 +64,7 @@ function AllTables() {
       );
       setTables(response.data);
       setResponseMessage("Data fetched successfully");
+      setIsLoading(false);
     } catch (error) {
       setResponseMessage("Error fetching the data");
     }
@@ -109,6 +112,10 @@ function AllTables() {
       console.error("Errore nell'eliminare la tabella: ", error);
     }
   };
+
+  if (isLoading === true) {
+    return <Loading />;
+  }
 
   return (
     <div

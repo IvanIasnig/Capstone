@@ -5,6 +5,7 @@ import dietImage from "../images/diet4.jpg";
 import workoutImage from "../images/workout.jpg";
 import statsImage from "../images/stats.jpg";
 import photocameraImage from "../images/photocamera.jpg";
+import exercises from "../images/exercisesLabel.jpg";
 
 function UserProfile() {
   const sections = [
@@ -27,6 +28,11 @@ function UserProfile() {
       label: "Photos",
       link: "/userProfile/photos",
       backgroundImage: photocameraImage,
+    },
+    {
+      label: "Exercises",
+      link: "/userProfile/exercises",
+      backgroundImage: exercises,
     },
   ];
 

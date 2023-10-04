@@ -7,6 +7,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { Drawer } from "@mui/material";
 import { useAuth } from "../provider/AuthProvider";
+import Logo from "../images/icon.png";
 
 const NavBar = () => {
   const { rof } = useAuth();
@@ -19,29 +20,34 @@ const NavBar = () => {
   return (
     <div>
       <AppBar
-        position="static"
+        position="sticky"
         sx={{
           backgroundColor: "rgba(30, 30, 30)",
           color: "white",
-          position: "sticky",
           zIndex: 2,
         }}
       >
         <Toolbar>
+          <img
+            src={Logo}
+            alt="Company Logo"
+            style={{ height: "40px", marginRight: "20px" }}
+          />
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            {rof.username}
+          </Typography>
           <IconButton
-            edge="start"
+            edge="end"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            className="d-block d-sm-none"
+            className="d-block d-lg-none"
             onClick={handleDrawerToggle}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            {rof.username}
-          </Typography>
-          <div className="d-none d-sm-flex">
+
+          <div className="d-none d-lg-flex">
             <Link
               to="/userProfile/diet"
               className="text-white fw-bold text-decoration-none me-5 linkStyle"
@@ -66,6 +72,12 @@ const NavBar = () => {
             >
               My Photos
             </Link>
+            <Link
+              to="/userProfile/exercises"
+              className="text-white fw-bold text-decoration-none me-5 linkStyle"
+            >
+              Exercises
+            </Link>
           </div>
         </Toolbar>
       </AppBar>
@@ -87,6 +99,12 @@ const NavBar = () => {
           className="text-black fw-bold text-decoration-none m-3 linkStyle"
         >
           Progress
+        </Link>
+        <Link
+          to="/userProfile/exercises"
+          className="text-black fw-bold text-decoration-none m-3 linkStyle"
+        >
+          Exercises
         </Link>
       </Drawer>
     </div>

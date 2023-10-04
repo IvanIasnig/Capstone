@@ -24,7 +24,7 @@ function App() {
             <Route path="workout" element={<Workout />} />
             <Route path="tables" element={<AllTables />} />
             <Route path="photos" element={<Photo />} />
-            <Route path="help" element={<Exercises />} />
+            <Route path="exercises" element={<Exercises />} />
           </Route>
           <Route path="/*" element={<ErrorPage />} />
         </Routes>

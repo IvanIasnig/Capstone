@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -110,8 +109,15 @@ function ImageUploader() {
   };
 
   function sortImagesByDate(images) {
-    return [...images].sort((a, b) => new Date(a.date) - new Date(b.date));
+    return [...images].sort((a, b) => new Date(b.date) - new Date(a.date));
   }
+
+  const handleDownload = (imageData) => {
+    const link = document.createElement("a");
+    link.href = `data:image/png;base64,${imageData}`;
+    link.download = "downloaded-image.png";
+    link.click();
+  };
 
   return (
     <div
@@ -160,27 +166,39 @@ function ImageUploader() {
                 color: "common.white",
                 backgroundColor: "primary.main",
                 "&:hover": {
-                  backgroundColor: "primary.dark",
+                  backgroundColor: "orange",
                 },
               }}
             >
-              Select
+              Select photo
             </Button>
           </label>
 
           <Input
             type="text"
-            placeholder="Descrizione"
+            placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            style={{ backgroundColor: "white" }}
+            sx={{
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              color: "white",
+              padding: "2px 10px",
+              borderRadius: "4px",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+            }}
           />
 
           <Input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            style={{ backgroundColor: "white" }}
+            sx={{
+              backgroundColor: "rgba(255, 255, 255, 0.1)",
+              color: "white",
+              padding: "2px 10px",
+              borderRadius: "4px",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+            }}
           />
 
           <Button
@@ -190,15 +208,33 @@ function ImageUploader() {
               color: "primary.main",
               marginLeft: "1em",
               borderColor: "primary.main",
+              "&:hover": {
+                borderColor: "orange",
+                color: "orange",
+              },
             }}
           >
             Load
+          </Button>
+          <Button
+            onClick={() => setOrderByDate(!orderByDate)}
+            variant="outlined"
+            sx={{
+              color: "primary.main",
+              marginLeft: "1em",
+              borderColor: "primary.main",
+              "&:hover": {
+                borderColor: "orange",
+                color: "orange",
+              },
+            }}
+          >
+            {orderByDate ? "Sort from oldest" : "Sort from newest"}
           </Button>
           {file && (
             <Typography
               sx={{
                 color: "white",
-                marginTop: "20px",
                 padding: "0.2em 0.5em",
                 backgroundColor: "rgba(30, 30, 30, 0.7)",
                 borderRadius: "5px",
@@ -211,13 +247,6 @@ function ImageUploader() {
             </Typography>
           )}
         </div>
-
-        <button
-          onClick={() => setOrderByDate(!orderByDate)}
-          className="btn btn-success ms-4 mb-3"
-        >
-          {orderByDate ? "Sort normally" : "Sort by date"}
-        </button>
 
         <Grid container spacing={1}>
           {images &&
@@ -265,19 +294,6 @@ function ImageUploader() {
                       />
                       <CardContent>
                         <Typography
-                          variant="h6"
-                          color="textPrimary"
-                          component="p"
-                          sx={{
-                            fontWeight: "bold",
-                            marginBottom: "1em",
-                            textAlign: "center",
-                          }}
-                        >
-                          {image.name.replace(/\..+$/, "")}
-                        </Typography>
-
-                        <Typography
                           variant="body2"
                           color="textSecondary"
                           component="p"
@@ -312,8 +328,7 @@ function ImageUploader() {
                       <Button
                         onClick={() => handleDelete(image.id)}
                         sx={{
-                          // marginBottom: "500 px !important",
-                          // marginLeft: "500 px !important",
+                          margin: "5px",
                           "&:hover": {
                             backgroundColor: "red",
                             color: "white",
@@ -321,6 +336,18 @@ function ImageUploader() {
                         }}
                       >
                         Delete
+                      </Button>
+                      <Button
+                        onClick={() => handleDownload(image.data)}
+                        sx={{
+                          margin: "5px",
+                          "&:hover": {
+                            backgroundColor: "green",
+                            color: "white",
+                          },
+                        }}
+                      >
+                        Download
                       </Button>
                     </Card>
                   </Grid>

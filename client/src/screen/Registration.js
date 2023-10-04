@@ -9,7 +9,7 @@ import {
 import { Button } from "@mui/material";
 import { useAuth } from "../provider/AuthProvider";
 import gymLogin from "../images/gymLogin.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function RegistrationApp() {
   const { login } = useAuth();
@@ -163,7 +163,12 @@ function RegistrationApp() {
                 md="10"
                 lg="6"
                 className="d-none d-lg-flex align-items-center"
-              ></MDBCol>
+              >
+                Already have an account?<span> </span>
+                <Link to="/" className="text-white-50 fw-bold">
+                  Login
+                </Link>
+              </MDBCol>
             </MDBRow>
           </MDBCardBody>
         </MDBCard>

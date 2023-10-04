@@ -13,6 +13,7 @@ import Sun from "../images/foodsun.jpg";
 import axios from "axios";
 import useToken from "../customHooks/useToken";
 import UseDecodeToken from "../customHooks/UseDecodeToken";
+import Loading from "../component/Loading";
 
 function Diet() {
   const [weekDiet, setWeekDiet] = useState(null);
@@ -62,7 +63,9 @@ function Diet() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const dayBackgrounds = [Mon, Tue, Thu, Wed, Fri, Sat, Sun];
 
@@ -75,7 +78,6 @@ function Diet() {
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
         color: "white",
-        textShadow: "2px 2px 4px black",
       }}
     >
       <NavBar />

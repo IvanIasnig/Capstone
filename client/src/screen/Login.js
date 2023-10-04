@@ -17,8 +17,8 @@ function Login() {
     mail: "",
     password: "",
   });
-
   const [logoVisible, setLogoVisible] = useState(true);
+  const [loginError, setLoginError] = useState(null);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -46,6 +46,7 @@ function Login() {
       navigate("/userProfile");
     } catch (error) {
       console.error("Errore durante il login:", error);
+      setLoginError("Invalid email or password. Please try again.");
     }
   };
 
@@ -96,7 +97,7 @@ function Login() {
                   size="lg"
                   onChange={handleChange}
                 />
-
+                {loginError && <p className="text-danger mb-3">{loginError}</p>}
                 <button
                   className="btn btn-lg mx-2 px-5 text-white mb-3"
                   onClick={handleSubmit}
@@ -122,7 +123,7 @@ function Login() {
 
                 <div>
                   <p className="mb-0">
-                    Don't have an account?
+                    Don't have an account? <span> </span>
                     <Link to="/registration" className="text-white-50 fw-bold">
                       Sign Up
                     </Link>
