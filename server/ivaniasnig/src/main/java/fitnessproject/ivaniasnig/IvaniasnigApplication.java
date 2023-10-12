@@ -20,7 +20,6 @@ public class IvaniasnigApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(IvaniasnigApplication.class, args);
-		
 //	        String jdbcUrl = "jdbc:postgresql://localhost:5432/fitness";
 //	        String username = "postgres";
 //	        String password = "1234";
